@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Outlet,Route,Routes,BrowserRouter, redirect } from "react-router-dom";
+import Header from "~/Components/header";
+import SideBar from "~/Components/SideBar"
+import classNames from "classnames/bind";
+import '~/global.scss'
+// let cx = classNames.bind(styles)
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return(
+        <>
+        <div className="header">
+            <Header></Header>
+        </div>
+        <div className="content">
+            <Outlet></Outlet>
+        </div>
+        <div className="sidebar">
+            <SideBar></SideBar>
+        </div>
+        </>
+
+    )
 }
 
 export default App;
+
+
