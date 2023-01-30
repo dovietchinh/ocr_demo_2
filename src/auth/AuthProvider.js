@@ -9,7 +9,11 @@ const AuthProvider = ({ children }) => {
     const signIn = async (data) => {
     // call api
         try {
-            const res = await loginApi(data);
+            // const res = await loginApi(data);
+            let res = {
+                'access': 'acesss_token',
+                'refresh': 'refresh_token',
+            }
             if (res && res?.access) {
                 setToken(res?.access);
                 localStorage.setItem(ACCESS_TOKEN, res?.access);

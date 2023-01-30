@@ -1,3 +1,7 @@
 {
-    "TITLE": "vietnamese"
+    "training": "training",
+    "testing": "testing",
+    "models-management": "model management",
+    "logout": "Đăng xuất",
+    "language": "tiếng việt"
 }

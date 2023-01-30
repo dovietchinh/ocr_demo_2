@@ -2,5 +2,6 @@
     "training": "training",
     "testing": "testing",
     "models-management": "model management",
-    "logout": "logout"
+    "logout": "logout",
+    "language": "language"
 }

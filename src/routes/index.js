@@ -1,6 +1,7 @@
 
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import Login from '~/Pages/Login';
+import Logout from '~/Pages/Logout';
 import ProtectedRoute from "~/auth/ProtectedRoute"
 import App from '~/App'
 const OCRRouter = createBrowserRouter(
@@ -22,7 +23,7 @@ const OCRRouter = createBrowserRouter(
                     element: <div>training</div>
                 },
                 {
-                    path: "/model-management",
+                    path: "/models-management",
                     element: <div>model-management</div>
                 },
                 {
@@ -33,7 +34,7 @@ const OCRRouter = createBrowserRouter(
         },
         { 
             path: "/logout",
-            element: <Navigate to="/login" replace={true}></Navigate>
+            element: <Logout></Logout>
         }
     ]
 )

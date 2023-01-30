@@ -1,0 +1,19 @@
+.button-group{
+    background-color: var(--primary-color);
+    flex: 8;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+}
+.nav-helper {
+    flex :1;
+}
+.user-button{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px
+}

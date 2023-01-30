@@ -1,0 +1,57 @@
+.language--header {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    span{
+        color: white;
+    }
+    .icon--active {
+        transform: rotate(-180deg);
+        color: white;
+    }
+    .icon--deactive{
+        transform: rotate(-90deg);
+        color: white;
+    }
+}
+// #162E53
+.language--list {
+    position: absolute;
+    top: 30px;
+    display:flex;
+    flex-direction: column;
+    background-color: #162E53;
+    gap :5px;
+    width: 150px;
+    transform: translateX(-1.8rem);
+    &::before{
+        content: "";
+        // border: ;
+    }
+    .language--items {
+        &:hover{
+            background-color: black;
+        }
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 10px;
+        align-items: center;
+        padding: 10px;
+        margin: auto;
+        gap: 5px;
+        width: 100%;
+        height: 100%;
+        border-bottom: solid 1px white;
+        .language--label{
+            color: white;
+            text-align: right;
+        }
+        .language--flag{
+            width: 1.5rem;
+        }
+    }
+}

@@ -7,6 +7,7 @@ import { BrowserRouter, Navigate, useRoutes, RouterProvider} from "react-router-
 
 import Login from "~/Pages/Login"
 import OCRRouter from "./routes"
+import { ToastProvider } from "./Components/Toast"
 const queryClient = new QueryClient()
 const AppRoutes = () => {
     const language = useSelector(state=>state.appSlice.language)
@@ -14,7 +15,9 @@ const AppRoutes = () => {
         <IntlProvider messages={listLanguage[language]} locale={language} defaultLocale={language}>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
-                    <RouterProvider router={OCRRouter} />
+                    <ToastProvider>
+                        <RouterProvider router={OCRRouter} />
+                    </ToastProvider>
                 </AuthProvider>
             </QueryClientProvider>
         </IntlProvider>
