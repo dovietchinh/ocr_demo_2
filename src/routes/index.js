@@ -2,6 +2,7 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import Login from '~/Pages/Login';
 import Logout from '~/Pages/Logout';
+import Training from '~/Pages/Training';
 import ProtectedRoute from "~/auth/ProtectedRoute"
 import App from '~/App'
 const OCRRouter = createBrowserRouter(
@@ -20,7 +21,7 @@ const OCRRouter = createBrowserRouter(
             children: [
                 {
                     path: "/training",
-                    element: <div>training</div>
+                    element: <Training/>
                 },
                 {
                     path: "/models-management",

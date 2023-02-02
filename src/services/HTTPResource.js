@@ -40,7 +40,6 @@ const init = () => {
         },
         (error) => {
             if (axios.isCancel(error)) {
-                // console.log('Request canceled', error.message);
                 const newError = new Error('canceled');
                 return Promise.reject(newError);
             }

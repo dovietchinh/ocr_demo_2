@@ -1,0 +1,113 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem;
+    gap: 2.5rem;
+    width: 32.5rem;
+    height: 22.25rem;
+    background-color: white;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // justify-content: space-between;
+    width:100%;
+    height: 1.1825rem;
+    .header-title{
+        flex-grow: 1;
+        justify-content: center;
+        align-items: flex-start;
+        display: flex;
+        span{
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 1.5rem;
+            line-height: 1.1825rem;
+            color: #141F34;
+        }
+    }
+    .header-icon{
+        cursor: pointer;
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    flex-grow: 1;
+    .content-form-list{
+        flex-grow: 1;
+        gap: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        // height: 8.5rem;
+        .content-form-items{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            // height: 2.5rem;
+            span{
+                width: 7.5rem;
+                color: black;
+                // height: 1.25rem;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 0.875rem;
+                line-height: 1.25rem;
+                letter-spacing: 0.005em;
+            }
+            .content-form-items-input{
+                flex-grow: 1;
+                height: 100%;
+                padding: 0.5rem 1rem;
+                background-color: white;
+                border-radius: 4px;
+                border: 1px solid #D1D5DB;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: .875rem;
+                line-height: 2.25rem;
+                letter-spacing: 0.005em;
+                // color: #6B7280;
+            }
+            // .input--text{
+                
+
+            // }
+            // .input--select{
+                
+            // }
+        }
+    }
+    .content-action{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 0.75rem;
+        .btn{
+            height: 3rem;
+            width: 6.25rem;
+            border-radius: 0.75rem;
+        }
+    }
+}

@@ -1,22 +1,24 @@
+import classNames from 'classnames/bind';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import useModal from './hook';
+import style from './Modal.module.scss'
 
-const Modal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
+let cx = classNames.bind(style)
+
+
+const Modal = ({ isShowing, hide, children }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
-    <div className="modal-overlay"/>
-    <div className="modal-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
-      <div className="modal">
-        <div className="modal-header">
-          <button type="button" className="modal-close-button" data-dismiss="modal" aria-label="Close" onClick={hide}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <p>
-          Hello, I'm a modal.
-        </p>
-      </div>
-    </div>
+	<div className={cx("modal-overlay")}/>
+	<div className={cx("modal-wrapper")}>
+		<div className={cx("modal")}>
+			{children}
+		</div>
+	</div>
   </React.Fragment>, document.body
 ) : null;
 
+
+
+export { useModal }
 export default Modal;

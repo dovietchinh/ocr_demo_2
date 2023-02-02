@@ -1,0 +1,119 @@
+.wrapper{
+    width: 100%;
+    height: 100%;   
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    height: 2.75rem;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: space-between;
+    border-bottom: 1px dashed #D1D5DB;
+    
+    .header--images{
+        width: 4.625rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span{
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 0.875rem;
+            line-height: 2.25rem;
+            text-align: center;
+        }
+    }
+    .header--add-images{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 0.75rem;
+        flex-grow: 1;
+        span{
+            color: var(--primary-color);
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 0.875rem;
+            line-height: 2.25rem;
+            text-align: center;
+            cursor: pointer;
+            &:hover{
+                text-decoration: underline;
+
+            }
+        }
+
+    }
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    overflow-y: auto;
+    margin: auto;
+    margin-top: 0;
+    &:focus{
+        outline: none;
+    }
+    .content--items{
+        border-bottom: dashed 1px gray;
+        padding: 0.5rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        .content--items-icon{
+            opacity: 0;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2rem;
+            height: 2rem;
+            z-index: 100;
+            cursor:pointer;
+            display: flex;
+            // background-color: red;
+            i{  
+                color: gray;
+                background-color: white;
+                border-radius: 50%;
+                margin: auto;
+                padding: auto;
+                text-align: center;
+                font-size: 2rem;
+            }
+        }
+        &:hover{
+            .content--items-icon{
+                opacity: 1;
+            }
+        }
+        .content--items--div-img{
+            margin:auto;
+            width: 12.5rem;
+            height: 9.375rem;
+            img{
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+    }
+    
+}
+.content-items--active{
+    border: solid 2px var(--primary-color)
+}

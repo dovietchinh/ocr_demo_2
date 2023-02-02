@@ -3,5 +3,21 @@
     "testing": "testing",
     "models-management": "model management",
     "logout": "logout",
-    "language": "language"
+    "language": "English",
+    "Add Images": "Add Images",
+    "Images": "Images",
+    "Browse a file": "Browse a file",
+    "UPLOAD IMAGE": "UPLOAD IMAGE",
+    "Create new label": "Create new label",
+    "Object": "Object",
+    "Labels": "Labels",
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Check Box": "Check Box",
+    "Radio Button": "Radio Button",
+    "Value": "Value",
+    "Key": "Key",
+    "Name":"Name",
+    "OK": "OK",
+    "Ok": "Ok"
 }

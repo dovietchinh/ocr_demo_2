@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+.view{
+    // flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .view--img{
+        width:65.375rem;
+        height:42.5rem;
+        margin: auto;
+        img{
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+}
+.tool{
+    
+    // width: 100%;
+    // height: 4.5rem;
+}

@@ -1,5 +1,5 @@
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 /* Document
    ========================================================================== */
 
@@ -11,6 +11,7 @@
  html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    font-size: 16px;
   }
   
   /* Sections
@@ -350,6 +351,7 @@
 
 html{
   --primary-color : #0052CC;
-  --secondary-color : "#0052CC";
+  // --primary-color : green;
+  --secondary-color : #6B7280;
 
 }

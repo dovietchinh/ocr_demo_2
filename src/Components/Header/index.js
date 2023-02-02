@@ -1,6 +1,6 @@
 import classNames from "classnames/bind"
 import { useState } from "react"
-import Button from '~/Components/button'
+import Button from '~/Components/Button'
 import SelectLanguage from './selectLanguage'
 import { useIntl } from 'react-intl'
 import { useDispatch, useSelector } from "react-redux"
@@ -14,7 +14,6 @@ const Header = () => {
 	const language = useSelector(state=>state.appSlice.language)
 	const navigate = useNavigate();
 	let location = useLocation();
-	console.log('location: ',location)
 	return (
 		<>
 		<div className={cx("button-group")}>

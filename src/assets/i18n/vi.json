@@ -3,5 +3,21 @@
     "testing": "testing",
     "models-management": "model management",
     "logout": "Đăng xuất",
-    "language": "tiếng việt"
+    "language": "tiếng việt",
+    "Add Images": "Thêm Ảnh",
+    "Images": "Ảnh",
+    "Browse a file": "Chọn ảnh",
+    "UPLOAD IMAGE": "TẢI ẢNH LÊN",
+    "Create new label": "Thêm nhãn",
+    "Object": "vật thể",
+    "Labels": "Nhãn",
+    "Cancel": "Hủy",
+    "Create": "Tạo",
+    "Check Box": "Check Box",
+    "Radio Button": "Radio Button",
+    "Value": "Value",
+    "Key": "Key",
+    "Name":"Name",
+    "OK": "OK",
+    "Ok": "Ok"
 }

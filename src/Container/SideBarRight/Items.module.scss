@@ -1,0 +1,112 @@
+.label{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem 0;
+    width: 100%;
+    height: 4.75rem;
+    background-color: #F2F2F2;
+    
+
+}
+.label-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 1.75rem;
+    gap: 0.5rem;
+    padding: 0px;
+    
+    .label-title--text{
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 0.875rem;
+        line-height: 1.125rem;
+        color: #141F34;
+       
+    }
+    .label-title--icon-pen{
+        width: 1rem;
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0.4;
+        position: relative;
+        &:hover{
+            opacity:1;
+            
+            &:after{
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 2px;
+                background-color: black;
+                bottom: -50%;
+
+            }
+        }
+    }
+    .label-title--icon-x{
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0.4;
+        &:hover{
+            opacity:1
+            
+        }
+    }
+}
+
+.label-action{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 1.5rem;
+    height: 2rem;
+    .label-action-radio{
+        gap: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        input{
+            width: 1rem;
+            height: 1rem;
+            font-size: 10rem;
+        }
+        span{
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            /* identical to box height, or 143% */
+
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.005em;
+
+            /* Black */
+
+            color: #131313;
+        }
+    }
+}
+

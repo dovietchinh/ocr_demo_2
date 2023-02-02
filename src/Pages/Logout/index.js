@@ -11,7 +11,6 @@ const Logout = () => {
         navigate('/login')
     },[])
     return (
-        // <Navigate to="/login" replace={true}></Navigate>
         <div></div>
     )
 }

@@ -76,7 +76,6 @@ export function ToastProvider({ children }) {
 
   const add = (content,mode) => {
 	if(!['success','error','warning'].includes(mode)){
-		console.log('Invalid mode: ',mode)
 		mode = 'success'
 	}
     const id = toastCount++;

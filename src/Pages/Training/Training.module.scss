@@ -1,0 +1,22 @@
+.sidebar-left{
+    display: flex;
+    width: 17.5rem;
+    // height: 100vh;   
+    height: calc(100vh - 52px)
+}
+
+.content{
+    flex-grow: 1;
+    background-color: #EEE;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    max-height: calc(100vh - 52px);
+    padding: 2rem;
+}
+
+.sidebar-right{
+    display: flex;
+    width: 17.5rem;
+    height: calc(100vh - 52px)
+}

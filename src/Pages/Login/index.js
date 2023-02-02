@@ -19,37 +19,8 @@ function Login(){
     const handleClick = (e)=>{
         let login_submit = async () =>{
             await signIn()
-            console.log('asd')
             navigate('/')
         }
-        
-        // let login_submit = async () =>{
-        //     let res = await axios.post('http://10.124.64.125:18001/api/v1/login',{user,pass})
-        //         .then((r)=>{
-        //             console.log(r.data.message)
-        //             if(r.data.status){
-        //                 setMessage(r.data.message)
-        //                 dispatch(mode.actions.actionSetModeLoginSuccess(true))
-        //                 dispatch(mode.actions.actionSetCustomerID(user))
-        //             }
-                    
-        //             else{
-        //                 setMessage(r.data.message)
-        //             }
-                    
-        //         })
-        //         .then({})
-        //         .catch((error)=>{
-        //             let r;
-        //             if(typeof(error)=='string') {r = {message:error}}
-        //             else{r = {message:'server error'}}
-                    
-        //             setMessage(r.message)
-        //         })
-                
-            
-            
-        // }
         login_submit()
     }
     const ref = useRef()
