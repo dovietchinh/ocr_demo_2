@@ -6,7 +6,7 @@ import icon2 from "~/assets/images/tools2.svg"
 import icon3 from "~/assets/images/tools3.svg"
 let cx = classNames.bind(style)
 
-const MainView = () => {
+const MainView = ({images}) => {
     return (
         <div className={cx("container")}>
             <div className={cx("view")}>
@@ -23,6 +23,7 @@ const MainView = () => {
                     activeIndex={0}
                 />
             </div>
+            
         </div>
 
     )
