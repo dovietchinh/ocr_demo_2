@@ -7,7 +7,7 @@ import { useEffect, useContext } from "react";
 import UploadFile from "~/Components/UploadFile";
 import {usePrompt} from '~/Hook'
 import BlockingModal from "~/Components/BlockingModal"
-import MainView from "~/Container/MainView";
+import MainView from "~/Pages/Training/MainView";
 let cx = classNames.bind(style)
 
 

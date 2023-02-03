@@ -5,6 +5,8 @@ import Logout from '~/Pages/Logout';
 import Training from '~/Pages/Training';
 import ProtectedRoute from "~/auth/ProtectedRoute"
 import App from '~/App'
+import ModelManagement from '~/Pages/ModelManagement';
+import Testing from '~/Pages/Testing';
 const OCRRouter = createBrowserRouter(
     [
         {
@@ -25,11 +27,11 @@ const OCRRouter = createBrowserRouter(
                 },
                 {
                     path: "/models-management",
-                    element: <div>model-management</div>
+                    element: <ModelManagement/>
                 },
                 {
                     path: "/testing",
-                    element: <div>testing</div>
+                    element: <Testing></Testing>
                 }
             ]
         },

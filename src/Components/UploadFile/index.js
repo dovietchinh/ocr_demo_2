@@ -5,7 +5,7 @@ import style from './UploadFile.module.scss'
 import icon_upload from '~/assets/images/icon.png'
 import Button from "~/Components/Button"
 let cx = classNames.bind(style)
-const UploadFile = ({upURL,upBase64}) => {
+const UploadFile = ({upURL,upBase64,className}) => {
     const intl = useIntl()
     const ref = useRef()
     const [filesNames,setFileNames] = useState()
@@ -24,7 +24,7 @@ const UploadFile = ({upURL,upBase64}) => {
         }       
     }
     return (
-        <div className={cx("container")}>
+        <div className={cx("container",className)}>
             <title className={cx("title")}>
                 <span>{intl.formatMessage({id:"UPLOAD IMAGE"})}</span>
             </title>

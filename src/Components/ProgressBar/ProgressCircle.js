@@ -1,7 +1,8 @@
 import styles from './ProgressBar.module.scss'
 import classNames from 'classnames/bind'
+import { useEffect } from 'react'
 let cx = classNames.bind(styles)
-function ProgressCircle({from_percentage,percentage,children,cls}){
+function ProgressCircle({from_percentage,percentage,title,cls}){
     useEffect(()=>{
         let r = document.querySelector(':root');
         let right_stop,right_start,left_stop,left_start;
@@ -11,7 +12,7 @@ function ProgressCircle({from_percentage,percentage,children,cls}){
         }
         else{
             right_stop = "180deg"
-            left_stop = parseInt(percentage*360-180) + "deg"
+            left_stop = parseInt(percentage*360-180) + "degf"
         }
 
         if(from_percentage < 0.5){
@@ -51,7 +52,7 @@ function ProgressCircle({from_percentage,percentage,children,cls}){
                     <span className={cx("progress-bar")}></span>
                 </span>
             </div>
-            <div className={cx("title")}>{children}</div>
+            <div className={cx("title")}>{title}</div>
             <div className={cx("percent-text")}>{String(percentage*100).slice(0,5)+"%"}</div>
         </div>
     )

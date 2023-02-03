@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl'
 import useSideBarLeft from './useSideBarLeft'
 let cx = classNames.bind(style)
 
-const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage}) => {
+const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,upBase64}) => {
     const ref = useRef()
     const intl = useIntl()
     const handleClickInput = (e) =>{
@@ -15,6 +15,12 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage}
         for(let index=0; index< length;index++){
             let imageUrl = URL.createObjectURL(files[index]);
             addImage(imageUrl)
+            if(upBase64){
+                let reader = new FileReader()
+                let base64 = reader.readAsDataURL(files[index])
+                base64.splice()
+                upBase64(base64)
+            }
         }
     }
     const handleKeyDown = (e) => {

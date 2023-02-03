@@ -19,5 +19,10 @@
     "Key": "Key",
     "Name":"Name",
     "OK": "OK",
-    "Ok": "Ok"
+    "Ok": "Ok",
+    "Test": "Test",
+    "No model available": "No model available",
+    "Training now": "Training now",
+    "Close": "Close",
+    "Next": "Next"
 }
