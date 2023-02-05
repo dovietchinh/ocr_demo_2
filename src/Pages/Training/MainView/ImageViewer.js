@@ -6,15 +6,11 @@ import uuid from "react-uuid";
 let cx = classNames.bind(style)
 
 
-// const Polygon = () => {
-//     <polygon points="200,10 250,190 160,210" style={{
-// }
-
-const ImageViewer = ({ src }) => {
+const ImageViewer = ({ src,listObject }) => {
   const [scale, setScale] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const imageRef = useRef(null);
-    const [points,setPoints] = useState([[200,10],[250,190],[160,210]])
+  const [points,setPoints] = useState([[200,10],[250,190],[160,210]])
     let x = ""
     for( let i of points){
         x = x + `${i[0]},${i[1]} `
@@ -75,7 +71,6 @@ const ImageViewer = ({ src }) => {
         }}
       >
         <polygon 
-            // points="200,10 250,190 160,210" 
             points={x}
             style={{
                 fill:"red",
@@ -94,7 +89,6 @@ const ImageViewer = ({ src }) => {
             // cursor:"grab"
         }}
         >
-            
             {
                 points.map((ele,index)=>{
                     let x = ele[0]
@@ -134,14 +128,6 @@ const ImageViewer = ({ src }) => {
                                 let mouseup = (myevent)=>{
                                     document.removeEventListener('mousemove', mousemove, false);
                                     document.removeEventListener('mouseup',mouseup,false)
-                                    // console.log('e.target.offsetTop: ',e.target.offsetTop)
-                                    // setPoints(prev=>{
-                                    //     let new_data = [...prev]
-                                    //     new_data[index] = [e.target.offsetLeft,e.target.offsetTop]
-                                    //     // console.log('e.target.style.left: ',e.target.style.left)
-                                    //     // console.log('e.target.style.top: ',e.target.style.top)
-                                    //     return new_data
-                                    // })
                                 }
                                 document.addEventListener('mousemove',mousemove,false)
                                 document.addEventListener('mouseup',mouseup,false)
@@ -149,9 +135,7 @@ const ImageViewer = ({ src }) => {
                         ></div>
                     )    
                 })
-
             }
-
       </div>
     </div>
   );

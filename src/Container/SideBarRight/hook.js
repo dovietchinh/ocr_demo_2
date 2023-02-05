@@ -1,7 +1,13 @@
 import { useState } from "react"
 
 const useSideBarRight = () => {
-    const [listObjects,setListObjects] = useState(['test object'])
+    const [listObjects,setListObjects] = useState([
+        // {
+        //     'type': 'polygon',
+        //     'points': []
+
+        // },
+    ])
     const [listLabels,setListLabels] = useState(['test label'])
     const [activeObject,setActiveObject] = useState()
     const [activeLabel,setActiveLabel] = useState()

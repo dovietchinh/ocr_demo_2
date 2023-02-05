@@ -11,7 +11,7 @@ import ProgressBar from "~/Components/ProgressBar"
 import ImageViewer from './ImageViewer'
 let cx = classNames.bind(style)
 
-const MainView = ({images}) => {
+const MainView = ({images,listObject}) => {
     const [text,setText] = useState("")
     const { isShowing, toggle } = useModal()
     const { isShowing:isShowing2, toggle:toggle2 } = useModal()
@@ -24,7 +24,9 @@ const MainView = ({images}) => {
             </div> */}
             <div className={cx("view")}>
                 <div className={cx("view--img")}>
-                    <ImageViewer src={"http://10.124.64.120:9066/demo/inference_img/2023-2-2-12-21-37-2315167480-original_image.jpg"}></ImageViewer>
+                    <ImageViewer src={"http://10.124.64.120:9066/demo/inference_img/2023-2-2-12-21-37-2315167480-original_image.jpg"}
+                    listObject={listObject}
+                    ></ImageViewer>
                 </div>
             </div>
             <div className={cx("tool")}>

@@ -48,7 +48,7 @@ const Training = () => {
           {
           listImages.length==0 ? 
             <UploadFile upURL={addImage}></UploadFile>
-            : <MainView></MainView>
+            : <MainView listObjects={listObjects} ></MainView>
           }
           </div>
           
