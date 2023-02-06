@@ -57,7 +57,7 @@ const TrainingProvider = ({children}) => {
     }
 
     const addListLabels = (data) => {
-        setListLabels(prev=>[...prev,...data])
+        setListLabels(prev=>[...prev,data])
     }
 
     const deleteListLabels = (index) => {
@@ -84,7 +84,10 @@ const TrainingProvider = ({children}) => {
             'imgIndex': 0,
             'labelIndex': 0,
         })
-        addListLabels(['asd','zxc'])
+        addListLabels(
+            'name',
+
+        )
     },[])
 
 

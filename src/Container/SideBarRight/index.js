@@ -13,10 +13,9 @@ import { ObjectItems, LabelItems} from './Items'
 
 let cx = classNames.bind(style)
 
-const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects,addListLabels}) => {
+const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects,addListLabels,activeObject,setActiveObject}) => {
     const {isShowing, toggle } = useModal()
     const [mode,setMode] = useState('object')
-    console.log('listObjects: ',listObjects)
     const container = {
         'object': {
             'listData': listObjects,
@@ -51,10 +50,19 @@ const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects
                     {
                         container[mode].listData.map((ele,index)=>{
                             let Component = container[mode].component
+                            let active = false
+                            if(index==activeObject){
+                                active = true
+                            }
                             return (
                                 <Component key={uuid()} ele={ele}
                                     clickDelete={()=>container[mode].actionDelete(index)}
-                                    // clickModify={()=>{}}
+                                    active={active}
+                                    handleClick={(e)=>{
+                                        // if(e.target == e.currentTarget) return;
+                                        setActiveObject(index)
+                                    }}
+                                    listLabels={listLabels}
                                  />
                             )
                         })

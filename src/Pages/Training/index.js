@@ -31,7 +31,8 @@ const Training = () => {
       modifyPoint,
       addListObjects,
       deleteListObjects,
-      activeObject
+      activeObject,
+      setActiveObject
     },
     'Labels':{
       listLabels,
@@ -44,6 +45,8 @@ const Training = () => {
       toggleTooList:setActiveToolList
     }
   } = useTraining()
+  console.log('listObjects: ',listObjects)
+  console.log('listLabels: ',listLabels)
     return (
         <>
         {/* <ProviderTraining> */}
@@ -76,7 +79,6 @@ const Training = () => {
           </div>
           
           <div className={cx("sidebar-right")}>
-          
              <SideBarRight
              activeObject={activeObject}
              listObjects={listObjects}
@@ -86,6 +88,7 @@ const Training = () => {
              deleteListObjects={deleteListObjects}
              addListLabels={addListLabels}
              deleteListLabels={deleteListLabels}
+             setActiveObject={setActiveObject}
             ></SideBarRight>
           
           </div>

@@ -25,7 +25,6 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
     }
     const handleKeyDown = (e) => {
         if(e.key=='Delete'){
-            // console.log(activeIndex)
             deleteImage(activeIndex)
         }
     } 

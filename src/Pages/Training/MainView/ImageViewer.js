@@ -93,6 +93,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
       >
 				{
 					listObjects.map((ele,index)=>{
+            console.log('listObjects: ',listObjects)
 						let point_string = ""
 						for(let i of ele.points){
 							point_string = point_string + `${i[0]},${i[1]} `

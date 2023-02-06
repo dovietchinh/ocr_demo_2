@@ -2,6 +2,9 @@ import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit"
 import thunk from 'redux-thunk';
 const initialState = {
     'language': 'en',
+    'data': {
+        'models': []
+    }
 }
 
 export const appSlice = createSlice({

@@ -4,6 +4,9 @@ import Button from "~/Components/Button";
 import style from './ModelManagement.module.scss'
 import uuid from 'react-uuid'
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getListModelApi } from'~/services/api'
+import { useDispatch } from "react-redux";
 let cx = classNames.bind(style)
 
 const EmptyModel = () => {
@@ -32,7 +35,17 @@ const ModelManagement = ({startTrainingClick}) => {
         }
     ]
     models = []
+    const dispatch = useDispatch()
     const intl = useIntl()
+    const { isLoading, error, data } = useQuery('repoData', () =>
+        getListModelApi()
+        .then(res =>
+        res.json()
+        )
+    )
+    if (isLoading) return 'Loading...'
+    if (error) return 'An error has occurred: ' + error.message
+    
     return (
         <div className={cx("wrapper")}>
             
