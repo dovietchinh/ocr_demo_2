@@ -18,6 +18,9 @@ const useSideBarLeft = ()=>{
     }
     const addImage = (data) => {
         setActiveIndex(prev=>{
+            if (!prev){
+                return 0
+            }
             return prev!=0 ? prev -1 : prev
         })
         setListImages(prev=>[...prev,data])

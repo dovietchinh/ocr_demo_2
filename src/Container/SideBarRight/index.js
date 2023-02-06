@@ -13,21 +13,19 @@ import { ObjectItems, LabelItems} from './Items'
 
 let cx = classNames.bind(style)
 
-const SideBarRight = ({data,actions}) => {
+const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects,addListLabels}) => {
     const {isShowing, toggle } = useModal()
-    // const [ListData,setListData] = useState(()=>{})
-    // const [dataComponent,setDataComponents] = useState(()=>{})
-    // const [actionDeleteData,setActionDeleteData] = useState(()=>{})
     const [mode,setMode] = useState('object')
+    console.log('listObjects: ',listObjects)
     const container = {
         'object': {
-            'listData': data?.listObjects,
-            'actionDelete': actions?.deleteListObjects,
+            'listData': listObjects,
+            'actionDelete': deleteListObjects,
             'component':  ObjectItems
         },
         'labels':{
-            'listData': data?.listLabels,
-            'actionDelete': actions?.deleteListLabels,
+            'listData': listLabels,
+            'actionDelete': deleteListLabels,
             'component':  LabelItems
         }
     }
@@ -56,7 +54,7 @@ const SideBarRight = ({data,actions}) => {
                             return (
                                 <Component key={uuid()} ele={ele}
                                     clickDelete={()=>container[mode].actionDelete(index)}
-                                    clickModify={()=>{}}
+                                    // clickModify={()=>{}}
                                  />
                             )
                         })
@@ -76,7 +74,7 @@ const SideBarRight = ({data,actions}) => {
             <Modal isShowing={isShowing} hide={toggle}>
                 <CreateLabel 
                     toggle={toggle}
-                    addData={actions.addListLabels}
+                    addData={addListLabels}
                     >
                 </CreateLabel>
             </Modal>

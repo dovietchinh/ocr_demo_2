@@ -8,29 +8,45 @@ import UploadFile from "~/Components/UploadFile";
 import {usePrompt} from '~/Hook'
 import BlockingModal from "~/Components/BlockingModal"
 import MainView from "~/Pages/Training/MainView";
+import TrainingProvider,{useTraining} from "./hook"
 let cx = classNames.bind(style)
 
 
 const Training = () => {
-  const {activeIndex,clickIndex, listImages, addImage,deleteImage,setActiveIndex} = useSideBarLeft()
+  // const {activeIndex,clickIndex, listImages, addImage,deleteImage,setActiveIndex} = useSideBarLeft()
+  // const {
+  //   activeObject,
+  //   listObjects,
+  //   addListObjects,
+  //   deleteListObjects,
+  //   activeLabel,
+  //   listLabels,
+  //   addListLabels,
+  //   deleteListLabels
+  // } = useSideBarRight()
   const {
-    activeObject,
-    listObjects,
-    addListObjects,
-    deleteListObjects,
-    activeLabel,
-    listLabels,
-    addListLabels,
-    deleteListLabels
-  } = useSideBarRight()
-  useEffect(()=>{
-    return ()=>{
-
+    'Images':{activeIndex,clickIndex, listImages, addImage,deleteImage,setActiveIndex},
+    'Object':{
+      listObjects,
+      modifyPoint,
+      addListObjects,
+      deleteListObjects,
+      activeObject
+    },
+    'Labels':{
+      listLabels,
+      activeLabel,
+      addListLabels,
+      deleteListLabels
+    },
+    'ToolList': {
+      activeToolList,
+      toggleTooList:setActiveToolList
     }
-  },[])
-  // usePrompt( 'Leave screen?', false );
+  } = useTraining()
     return (
         <>
+        {/* <ProviderTraining> */}
           {
           listImages.length!=0 ? <div className={cx("sidebar-left")}>
             
@@ -48,20 +64,33 @@ const Training = () => {
           {
           listImages.length==0 ? 
             <UploadFile upURL={addImage}></UploadFile>
-            : <MainView listObjects={listObjects} ></MainView>
+            : <MainView listObjects={listObjects}
+                        addListObjects={addListObjects}
+                        modifyPoint={modifyPoint}
+                        img={listImages[activeIndex]}
+                        activeToolList={activeToolList}
+                        setActiveToolList={setActiveToolList}
+                
+               ></MainView>
           }
           </div>
           
           <div className={cx("sidebar-right")}>
           
              <SideBarRight
-             data={{activeObject,listObjects,activeLabel,listLabels}}
-             actions={{addListObjects,deleteListObjects,addListLabels,deleteListLabels}}
+             activeObject={activeObject}
+             listObjects={listObjects}
+             activeLabel={activeLabel}
+             listLabels={listLabels}
+             addListObjects={addListObjects}
+             deleteListObjects={deleteListObjects}
+             addListLabels={addListLabels}
+             deleteListLabels={deleteListLabels}
             ></SideBarRight>
           
           </div>
           <BlockingModal when={listImages.length!=0}></BlockingModal>
-        
+        {/* </ProviderTraining> */}
         </>
       );
 }

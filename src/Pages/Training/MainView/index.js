@@ -11,7 +11,7 @@ import ProgressBar from "~/Components/ProgressBar"
 import ImageViewer from './ImageViewer'
 let cx = classNames.bind(style)
 
-const MainView = ({images,listObject}) => {
+const MainView = ({img,listObjects, modifyPoint,activeToolList,setActiveToolList,addListObjects}) => {
     const [text,setText] = useState("")
     const { isShowing, toggle } = useModal()
     const { isShowing:isShowing2, toggle:toggle2 } = useModal()
@@ -24,8 +24,14 @@ const MainView = ({images,listObject}) => {
             </div> */}
             <div className={cx("view")}>
                 <div className={cx("view--img")}>
-                    <ImageViewer src={"http://10.124.64.120:9066/demo/inference_img/2023-2-2-12-21-37-2315167480-original_image.jpg"}
-                    listObject={listObject}
+                    <ImageViewer 
+                    // src={"http://10.124.64.120:9066/demo/inference_img/2023-2-2-12-21-37-2315167480-original_image.jpg"}
+                    src={img}
+                    listObjects={listObjects}
+                    modifyPoint={modifyPoint}
+                    activeToolList={activeToolList}
+                    setActiveToolList={setActiveToolList}
+                    addListObjects={addListObjects}
                     ></ImageViewer>
                 </div>
             </div>
@@ -34,7 +40,8 @@ const MainView = ({images,listObject}) => {
                     listIcon={[{icon:icon1},{icon:icon2},{icon:icon3}]}
                     handleClick={toggle}
                     buttonLabel="Start training"
-                    activeIndex={0}
+                    activeIndex={activeToolList}
+                    setActiveIndex={setActiveToolList}
                 />
             </div>
             <Modal hide={toggle} isShowing={isShowing}>

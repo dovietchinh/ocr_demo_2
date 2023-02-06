@@ -1,8 +1,8 @@
-import { useState } from "react"
+// import { useState } from "react"
 
-const useToolList = () => {
-    const [activeIndex,setActiveIndex] = useState()
+// const useToolList = () => {
+//     const [activeIndex,setActiveIndex] = useState()
     
-}
+// }
 
-export default useToolList
+// export default useToolList

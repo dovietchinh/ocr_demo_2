@@ -34,7 +34,10 @@ const LabelItems = ({ele, className, clickModify, clickDelete,...res }) => {
 
 const ObjectItems = ({ele, ...res}) => {
     return(
-        <div></div>
+        <div className={cx("object")}>
+            <div className={cx("title")}>chinhdv</div>
+            <div className={cx("select")}></div>
+        </div>
     )
 }
 

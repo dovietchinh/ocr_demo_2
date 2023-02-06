@@ -7,6 +7,7 @@ import ProtectedRoute from "~/auth/ProtectedRoute"
 import App from '~/App'
 import ModelManagement from '~/Pages/ModelManagement';
 import Testing from '~/Pages/Testing';
+import TrainingProvider from '~/Pages/Training/hook';
 const OCRRouter = createBrowserRouter(
     [
         {
@@ -23,7 +24,7 @@ const OCRRouter = createBrowserRouter(
             children: [
                 {
                     path: "/training",
-                    element: <Training/>
+                    element: (<TrainingProvider><Training/></TrainingProvider>)
                 },
                 {
                     path: "/models-management",
