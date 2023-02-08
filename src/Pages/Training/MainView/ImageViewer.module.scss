@@ -5,6 +5,16 @@
     left:0;
     width: 100%;
     height: 100%;
+    polygon{
+        fill:red;
+        stroke:purple;
+        stroke-width:1;
+        opacity:0.2;
+    }
+    .polygon--active{
+        opacity: .5;
+        // fill:blue;
+    }
 }
 .container{
     position: relative;

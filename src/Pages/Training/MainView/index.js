@@ -9,12 +9,19 @@ import { useState, useRef, useEffect, useCallback } from "react"
 import Modal,{ useModal } from "~/Components/Modal"
 import ProgressBar from "~/Components/ProgressBar"
 import ImageViewer from './ImageViewer'
+import { useTraining } from "../hook"
 let cx = classNames.bind(style)
 
-const MainView = ({img,listObjects, modifyPoint,activeToolList,setActiveToolList,addListObjects}) => {
-    const [text,setText] = useState("")
+const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActiveToolList,addListObjects}) => {
+    // const [text,setText] = useState("")
+    const {"Models":{
+        trainingModeLName,
+        setTrainingModeLName,
+    }} = useTraining()
     const { isShowing, toggle } = useModal()
     const { isShowing:isShowing2, toggle:toggle2 } = useModal()
+    const [scale,setScale] = useState(1)
+    const [offset, setOffset] = useState({ x: 0, y: 0 });
     return (
         <div className={cx("container")}>
             {/* <div className={cx("view")}>
@@ -32,6 +39,11 @@ const MainView = ({img,listObjects, modifyPoint,activeToolList,setActiveToolList
                     activeToolList={activeToolList}
                     setActiveToolList={setActiveToolList}
                     addListObjects={addListObjects}
+                    activeImg={activeImg}
+                    scale={scale}
+                    setScale={setScale}
+                    offset={offset}
+                    setOffset={setOffset}
                     ></ImageViewer>
                 </div>
             </div>
@@ -42,12 +54,16 @@ const MainView = ({img,listObjects, modifyPoint,activeToolList,setActiveToolList
                     buttonLabel="Start training"
                     activeIndex={activeToolList}
                     setActiveIndex={setActiveToolList}
+                    clickReset={()=>{
+                        setScale(1)
+                        setOffset({x:0,y:0})
+                    }}
                 />
             </div>
             <Modal hide={toggle} isShowing={isShowing}>
                 <InputForm 
-                    text={text}
-                    setText={setText}
+                    text={trainingModeLName}
+                    setText={setTrainingModeLName}
                     toggle={toggle}
                     clickNext={()=>{toggle();toggle2()}}
                 ></InputForm>

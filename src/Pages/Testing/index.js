@@ -3,16 +3,20 @@ import SideBarLeft, { useSideBarLeft } from '~/Container/SideBarLeft'
 import style from './Testing.module.scss'
 import UploadFile from '~/Components/UploadFile'
 import SelectModel from './SelectModel'
-
+import TestingView from './TestingView'
+import { useTesting } from './hook'
 let cx = classNames.bind(style)
 
 const Testing = () =>  {
     const {
-        activeIndex,
-        listImages,
-        clickIndex,
-        deleteImage,
-        addImage } = useSideBarLeft()
+        "Images":{
+            activeIndex,
+            listImages,
+            clickIndex,
+            deleteImage,
+            addImage
+        }
+    } = useTesting()
     return(
         // <div className={cx("container")}>
         <>
@@ -33,11 +37,10 @@ const Testing = () =>  {
                 listImages.length==0 ? (
                     <>
                     <SelectModel></SelectModel>
-                    
                     <UploadFile upURL={addImage} className={cx("uploadfile")}></UploadFile>
                     </>
                 )
-                : null
+                : <TestingView/>
             }
             
             </div>

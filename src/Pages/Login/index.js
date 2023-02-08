@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '~/auth/AuthProvider'
+import { useToasts } from '~/Components/Toast'
 import styles from './Login.module.scss'
 // import mode,{login} from '~/myredux/mode'
 
@@ -16,12 +17,39 @@ function Login(){
     let dispatch = useDispatch()
     const navigate = useNavigate()
     const { token, signIn, signOut, getNewAccessToken} = useAuth()
+    const {add:addToast,remove:removeToast} = useToasts()
     const handleClick = (e)=>{
         let login_submit = async () =>{
-            await signIn()
-            navigate('/')
+            try{
+                let res = await signIn({
+                    "account": user,
+                    "password": pass,
+                })
+                if(res?.message=='login success!'){
+                    addToast(res.message,'success')
+                    navigate('/')
+                }
+                else{
+                    // addToast(res.message,'error')
+                    setMessage(res.message)
+                    setTimeout(()=>setMessage(""),3000)
+                }
+            }
+            catch{
+                // addToast("network error!","error")
+                setMessage("network error!")
+                setTimeout(()=>setMessage(""),3000)
+            }
+
+            
+            
         }
         login_submit()
+        console.log(localStorage.getItem('access_token'))
+        if(localStorage.getItem('access_token')){
+            navigate('/')
+        }
+        
     }
     const ref = useRef()
     const refBtn = useRef()

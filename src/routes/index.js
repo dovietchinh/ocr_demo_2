@@ -8,6 +8,7 @@ import App from '~/App'
 import ModelManagement from '~/Pages/ModelManagement';
 import Testing from '~/Pages/Testing';
 import TrainingProvider from '~/Pages/Training/hook';
+import TestingProvider from '~/Pages/Testing/hook';
 const OCRRouter = createBrowserRouter(
     [
         {
@@ -32,7 +33,7 @@ const OCRRouter = createBrowserRouter(
                 },
                 {
                     path: "/testing",
-                    element: <Testing></Testing>
+                    element: <TestingProvider><Testing></Testing></TestingProvider>
                 }
             ]
         },

@@ -5,13 +5,14 @@ import {useSideBarLeft} from "~/Container/SideBarLeft";
 const TrainingContext = createContext(null)
 
 const TrainingProvider = ({children}) => {
-    const {activeIndex,clickIndex, listImages, addImage,deleteImage,setActiveIndex} = useSideBarLeft()
+    const {activeIndex,clickIndex, listImages, addImage,deleteImage:deleteImage_old,setActiveIndex} = useSideBarLeft()
 
     const [listObjects,setListObjects] = useState([])
     const [listLabels,setListLabels] = useState([])
     const [activeObject,setActiveObject] = useState()
     const [activeLabel,setActiveLabel] = useState()
     const [activeToolList,setActiveToolList] = useState()
+    const [trainingModelName,setTrainingModelName] = useState("")
     const toggleTooList = (index) => {
         if(activeToolList==index){
             setActiveToolList(null)
@@ -21,7 +22,7 @@ const TrainingProvider = ({children}) => {
         }
     }
     const addListObjects = (data) => {
-        setListObjects(prev=>[...prev,data])
+        setListObjects(prev=>[...prev,{...data,'indexObject':prev.length+1}])
     }
     const deleteListObjects = (index) => {
         if(index){
@@ -39,7 +40,25 @@ const TrainingProvider = ({children}) => {
             })
         }
     }
-
+    const deleteAllObjectWithImgIndex = (index) => {
+        setListObjects(prev=>{
+            // let new_data = [...prev]
+            let new_data = []
+            for(let i=0; i < prev.length;i++){
+                if(prev[i].imgIndex!=index){
+                    new_data.push({
+                        ...prev[i],
+                        imgIndex: prev[i].imgIndex - 1
+                    })
+                }
+            }
+            return new_data
+        })
+    }
+    const deleteImage = (index) => {
+        deleteAllObjectWithImgIndex(index)
+        deleteImage_old(index)
+    }
     const modifyObjects = (index,data) => {
         setListObjects(prev=>{
             let new_data = [...prev]
@@ -47,7 +66,7 @@ const TrainingProvider = ({children}) => {
             return new_data    
         })
     }
-
+    
     const modifyPoint = (objectIndex,pointIndex,point) => {
         setListObjects(prev=>{
             let new_data = [...prev]
@@ -76,19 +95,27 @@ const TrainingProvider = ({children}) => {
             })
         }
     }
-
-    useEffect(()=>{
-        addListObjects({
-            'type': 'polygon',
-            'points': [[200,10],[250,190],[160,210]],
-            'imgIndex': 0,
-            'labelIndex': 0,
+    const modifyLabel = (index,data) => {
+        setListLabels(prev=>{
+            let new_data = [...prev]
+            new_data[index] = data
+            return new_data
         })
-        addListLabels(
-            'name',
-
-        )
-    },[])
+    }
+    // useEffect(()=>{
+    //     addListObjects({
+    //         'type': 'polygon',
+    //         'points': [[200,10],[250,190],[160,210]],
+    //         'imgIndex': 0,
+    //         'labelIndex': 0,
+    //     })
+    //     addListLabels(
+    //         {
+    //             'name':'12',
+    //             'ty':'asd'
+    //         }
+    //     )
+    // },[])
 
 
 
@@ -113,11 +140,16 @@ const TrainingProvider = ({children}) => {
         'Labels':{
             listLabels,
             addListLabels,
-            deleteListLabels
+            deleteListLabels,
+            modifyLabel
         },
         'ToolList':{
             activeToolList,
             toggleTooList,
+        },
+        'Models':{
+            trainingModelName,
+            setTrainingModelName
         }
     }
 

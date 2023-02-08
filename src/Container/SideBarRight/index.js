@@ -13,9 +13,11 @@ import { ObjectItems, LabelItems} from './Items'
 
 let cx = classNames.bind(style)
 
-const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects,addListLabels,activeObject,setActiveObject}) => {
+const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteListObjects,addListLabels,activeObject,setActiveObject,modifyLabel}) => {
     const {isShowing, toggle } = useModal()
     const [mode,setMode] = useState('object')
+    const [modify,setModify] = useState(false)
+    const [modifyIndex, setModifyIndex] = useState(null)
     const container = {
         'object': {
             'listData': listObjects,
@@ -29,8 +31,8 @@ const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects
         }
     }
 
-
     const intl = useIntl()    
+    // return (<div></div>)
     return (
         <div className={cx("container")}>
             <div className={cx("header")}>
@@ -54,15 +56,30 @@ const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects
                             if(index==activeObject){
                                 active = true
                             }
+                            if(mode=='object'){
+                                if(ele.imgIndex!=activeImg) return
+                                // 'type': 'polygon',
+                                // 'points': tempPoints,
+                                // 'imgIndex': activeImg,
+                                // 'labelIndex': null,
+                            }
                             return (
-                                <Component key={uuid()} ele={ele}
+                                <Component key={uuid()} 
+                                    ele={ele}
                                     clickDelete={()=>container[mode].actionDelete(index)}
                                     active={active}
+                                    clickModify={()=>{
+                                        toggle()
+                                        setModify(true)
+                                        setModifyIndex(index)
+                                    }}
                                     handleClick={(e)=>{
                                         // if(e.target == e.currentTarget) return;
                                         setActiveObject(index)
                                     }}
                                     listLabels={listLabels}
+                                    // activeImg={activeImg}
+                                    // labelIndex={ele?.labelIndex}
                                  />
                             )
                         })
@@ -74,7 +91,12 @@ const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects
                 { mode=="labels" && <Button 
                     variant="primary" 
                     className={cx("btn")}
-                    onClick={toggle}
+                    onClick={()=>{
+                        toggle()
+                        setModify(false)
+                        setModifyIndex(null)
+
+                    }}
                     >{intl.formatMessage({id:"Create new label"})}
                 </Button>
                 }
@@ -83,6 +105,9 @@ const SideBarRight = ({listLabels,deleteListLabels,listObjects,deleteListObjects
                 <CreateLabel 
                     toggle={toggle}
                     addData={addListLabels}
+                    modify={modify}
+                    modifyIndex={modifyIndex}
+                    modifyLabel={modifyLabel}
                     >
                 </CreateLabel>
             </Modal>

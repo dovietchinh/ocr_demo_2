@@ -6,15 +6,17 @@ import style from './SelectOption.module.scss'
 let cx = classNames.bind(style)
 
 const SelectModel = ({selectedModel,setSelectedModel}) => {
-    // const models = useSelector(state=>state.appSlice?.resource?.models)
+    const models = useSelector(state=>state.appSlice?.data?.models)
+    console.log('models: 10', models)
     return (
-            <div className={cx("select")}>
+            <div className={cx("select")} value={0}>
                 <select>
-                    <option value={null} disabled selected hidden>{models?.length!=0 ? "Select Model":"No model available"}</option>
+                    <option disabled value={0} hidden>{models?.length!=0 ? "Select Model":"No model available"}</option>
                     {
-                        models?.map((ele,index)=>{
+                        models.map((ele,index)=>{
+                            console.log('ele: ',ele)
                             return (
-                                <option key={uuid()} value={ele.id}>{ele.name}</option>
+                                <option key={uuid()} value={ele?.id}>{ele?.model_name}</option>
                             )
                         })
                     }

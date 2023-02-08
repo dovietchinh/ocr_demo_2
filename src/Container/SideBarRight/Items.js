@@ -3,13 +3,12 @@ import classNames from 'classnames/bind'
 import uuid from 'react-uuid'
 let cx = classNames.bind(style)
 
-const LabelItems = ({ele, className, clickModify, clickDelete,...res }) => {
+const LabelItems = ({ele, clickModify, clickDelete }) => {
     return(
-        <div className={cx("label")}
-        {...res}>
+        <div className={cx("label")}>
             <div className={cx("label-title")}>
                 <span className={cx("label-title--text")}>
-                    {ele}
+                    {ele?.name}
                 </span>
                 <div className={cx("label-title--icon-pen")} onClick={clickModify}>
                     <i className="fa-solid fa-pen"></i>
@@ -32,12 +31,12 @@ const LabelItems = ({ele, className, clickModify, clickDelete,...res }) => {
     )
 }
 
-const ObjectItems = ({ele, clickDelete,listLabels,active,handleClick,...res}) => {
+const ObjectItems = ({ele, clickDelete,listLabels,active,handleClick}) => {
     return(
         <div className={cx("object",active ? "object--active":null)}
             onClick={handleClick}>
             <div className={cx("object-title")}>
-                <span className={cx("object-title--text")}>ID 01</span>
+                <span className={cx("object-title--text")}>Object ID : {ele.indexObject}</span>
                 <div className={cx("object-title--icon-x")} onClick={clickDelete}>
                     <i className="fa-solid fa-xmark"></i>
                 </div>
@@ -50,9 +49,10 @@ const ObjectItems = ({ele, clickDelete,listLabels,active,handleClick,...res}) =>
                     <option>heelo3</option> */}
                     {
                         listLabels?.map((label,index)=>{
-                            
+                            let select = false
+                            if(ele.labelIndex==index) select=true
                             return (
-                                <option key={uuid()} value={index}>{label}</option>
+                                <option key={uuid()} selected={select} value={index}>{label.name}</option>
                             )
                         })
                     }

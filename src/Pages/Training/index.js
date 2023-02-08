@@ -13,17 +13,6 @@ let cx = classNames.bind(style)
 
 
 const Training = () => {
-  // const {activeIndex,clickIndex, listImages, addImage,deleteImage,setActiveIndex} = useSideBarLeft()
-  // const {
-  //   activeObject,
-  //   listObjects,
-  //   addListObjects,
-  //   deleteListObjects,
-  //   activeLabel,
-  //   listLabels,
-  //   addListLabels,
-  //   deleteListLabels
-  // } = useSideBarRight()
   const {
     'Images':{activeIndex,clickIndex, listImages, addImage,deleteImage,setActiveIndex},
     'Object':{
@@ -38,15 +27,15 @@ const Training = () => {
       listLabels,
       activeLabel,
       addListLabels,
-      deleteListLabels
+      deleteListLabels,
+      modifyLabel,
     },
     'ToolList': {
       activeToolList,
       toggleTooList:setActiveToolList
     }
   } = useTraining()
-  console.log('listObjects: ',listObjects)
-  console.log('listLabels: ',listLabels)
+  // console.log('modifyLabel: ',modifyLabel)
     return (
         <>
         {/* <ProviderTraining> */}
@@ -73,6 +62,7 @@ const Training = () => {
                         img={listImages[activeIndex]}
                         activeToolList={activeToolList}
                         setActiveToolList={setActiveToolList}
+                        activeImg={activeIndex}
                 
                ></MainView>
           }
@@ -89,11 +79,12 @@ const Training = () => {
              addListLabels={addListLabels}
              deleteListLabels={deleteListLabels}
              setActiveObject={setActiveObject}
+             modifyLabel={modifyLabel}
+             activeImg={activeIndex}
             ></SideBarRight>
           
           </div>
           <BlockingModal when={listImages.length!=0}></BlockingModal>
-        {/* </ProviderTraining> */}
         </>
       );
 }

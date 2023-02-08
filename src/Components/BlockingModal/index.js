@@ -18,7 +18,6 @@ const BlockingModal = ({when=true}) => {
     const {isShowing,toggle} = useModal()
     const push = useRef(navigator.push)
     const handleClickOk = useCallback(async () => {
-        console.log('ok')
         navigator.push = push.current
         navigate(currentPath)
     }, [currentPath, navigator]);

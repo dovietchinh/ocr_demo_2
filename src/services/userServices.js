@@ -4,7 +4,7 @@ import { makePost } from './HTTPResource';
 export const loginApi = async (data) => {
     const { data: res } = await makePost({
         data,
-        url: 'api/auth/login/',
+        url: '/api/v1/auth/login',
         noAuth: true
     });
     return res;
@@ -20,7 +20,7 @@ export const refreshTokenApi = async () => {
     };
     const { data: res } = await makePost({
         data,
-        url: 'api/token/refresh/'
+        url: '/api/v1/auth/refresh_token/'
     });
     return res;
 };

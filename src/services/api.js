@@ -2,7 +2,7 @@ import { makeGet, makePost, makePut, makePatch, makeDelete } from './HTTPResourc
 
 export const getListModelApi = async (params) => {
     let res = await makeGet({
-        url: '/listModel',
+        url: '/api/v1/models/list_models',
         ...params
     })
     return res.data

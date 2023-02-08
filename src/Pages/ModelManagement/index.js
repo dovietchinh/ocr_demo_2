@@ -6,7 +6,8 @@ import uuid from 'react-uuid'
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getListModelApi } from'~/services/api'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { appSlice } from "~/store";
 let cx = classNames.bind(style)
 
 const EmptyModel = () => {
@@ -24,28 +25,35 @@ const EmptyModel = () => {
 }
 
 const ModelManagement = ({startTrainingClick}) => {
-    let models = [
-        {
-            name: "chinhdv",
-            date: "24/05/1998",
-        },
-        {
-            name: "chinhdv2",
-            date: "24/05/1998",
-        }
-    ]
-    models = []
+    // let models = [
+    //     {
+    //         name: "chinhdv",
+    //         date: "24/05/1998",
+    //     },
+    //     {
+    //         name: "chinhdv2",
+    //         date: "24/05/1998",
+    //     }
+    // ]
+    // models = []
     const dispatch = useDispatch()
     const intl = useIntl()
-    const { isLoading, error, data } = useQuery('repoData', () =>
-        getListModelApi()
-        .then(res =>
-        res.json()
-        )
-    )
-    if (isLoading) return 'Loading...'
-    if (error) return 'An error has occurred: ' + error.message
-    
+    const models = useSelector(state=>state.appSlice.data.models)
+    // const { isLoading, error, data:models } = useQuery({
+    //     'queryKey':'repoData', 
+    //     'queryFn':() =>{
+    //                 let res = getListModelApi().then(r=>{
+    //                     // console.log('here')
+    //                     dispatch(appSlice.actions.setModels(r))
+    //                     return r
+    //                 })
+    //                 return res
+    //             },
+    //     'staleTime': 5000
+    //     })
+    // if (isLoading) return 'Loading...'
+    // if (error) return 'An error has occurred: ' + error.message
+    // console.log('models: ',models)
     return (
         <div className={cx("wrapper")}>
             
@@ -62,10 +70,14 @@ const ModelManagement = ({startTrainingClick}) => {
                                     <div className={cx("model-items")} key={uuid()}>
                                         <div className={cx("model-info")}>
                                             <span className={cx("model-info--name")}>
-                                                {ele.name}
+                                                {ele.model_name}
                                             </span>
                                             <span className={cx("model-info--meta")}>
-                                                {ele.date}
+                                                {ele.progress==1 ? 'ready':'training'} &nbsp;
+                                                {ele.progress==1 ? <i className="fa-regular fa-circle-check"
+                                                    style={{
+                                                        color: 'green',
+                                                    }}></i>: <i className="fa-solid fa-spinner"></i>}
                                             </span>
                                         </div>
                                         <div className={cx("model--action")}>
@@ -75,7 +87,7 @@ const ModelManagement = ({startTrainingClick}) => {
                                                 >{intl.formatMessage({id:"Test"})}
                                             </Button>    
                                             <div className={cx("modal--action--delete")}>
-                                                <i class="fa-regular fa-trash-can"></i>
+                                                <i className="fa-regular fa-trash-can"></i>
                                             </div>
                                         </div>
                                     </div>

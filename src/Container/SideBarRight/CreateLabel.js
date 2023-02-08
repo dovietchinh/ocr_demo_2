@@ -5,7 +5,7 @@ import style from './CreateLabel.module.scss'
 import { useState } from "react"
 let cx = classNames.bind(style)
 
-const CreateLabel = ({toggle,addData,defaultValue}) => {
+const CreateLabel = ({toggle,addData,defaultValue,modifyLabel=()=>{},...res}) => {
     const intl = useIntl()
     
     const [labelName,setLabelName] = useState(defaultValue?.labelName || "")
@@ -16,7 +16,18 @@ const CreateLabel = ({toggle,addData,defaultValue}) => {
         changeFunction(e.target.value)
     }
     const handleClickOk = (e)=>{
-        addData(labelName)
+        
+        if(res.modify){
+            modifyLabel(res.modifyIndex,{
+                'name': labelName
+            })
+        }
+        else{
+            addData({
+                'name':labelName
+            })
+        }
+
         toggle()
     }
     return (
