@@ -24,5 +24,10 @@
     "No model available": "No model available",
     "Training now": "Training now",
     "Close": "Close",
-    "Next": "Next"
+    "Next": "Next",
+    "please draw some labels!": "please draw some labels!",
+    "Start training": "Start training",
+    "Active": "Active",
+    "Deactive": "Deactive",
+    "Detail" : "Detail"
 }

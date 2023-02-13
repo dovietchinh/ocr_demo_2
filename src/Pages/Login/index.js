@@ -45,7 +45,6 @@ function Login(){
             
         }
         login_submit()
-        console.log(localStorage.getItem('access_token'))
         if(localStorage.getItem('access_token')){
             navigate('/')
         }

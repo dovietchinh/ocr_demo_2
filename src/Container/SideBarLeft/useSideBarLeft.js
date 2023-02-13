@@ -7,9 +7,11 @@ const useSideBarLeft = ()=>{
         setActiveIndex(index)
     }
     const deleteImage = (index) => {
-        setActiveIndex(prev=>{
-            return prev!=0 ? prev -1 : prev
-        })
+        // setActiveIndex(prev=>{
+        //     return index!=0 ? index -1 : index
+        // })
+        console.log('Math.max(index-1,0): ',Math.max(index-1,0))
+        setActiveIndex(Math.max(index-1,0))
         setListImages(prev=>{
             let new_data = [...prev]
             new_data.splice(index,1)

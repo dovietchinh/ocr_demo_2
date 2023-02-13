@@ -12,7 +12,7 @@ function ProgressCircle({from_percentage,percentage,title,cls}){
         }
         else{
             right_stop = "180deg"
-            left_stop = parseInt(percentage*360-180) + "degf"
+            left_stop = parseInt(percentage*360-180) + "deg"
         }
 
         if(from_percentage < 0.5){

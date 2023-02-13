@@ -13,6 +13,7 @@ const TrainingProvider = ({children}) => {
     const [activeLabel,setActiveLabel] = useState()
     const [activeToolList,setActiveToolList] = useState()
     const [trainingModelName,setTrainingModelName] = useState("")
+    const [blockNavigate,setBlockNavigate] = useState(true)
     const toggleTooList = (index) => {
         if(activeToolList==index){
             setActiveToolList(null)
@@ -62,7 +63,10 @@ const TrainingProvider = ({children}) => {
     const modifyObjects = (index,data) => {
         setListObjects(prev=>{
             let new_data = [...prev]
-            new_data[index] = data
+            new_data[index] = {
+                ...new_data[index],
+                ...data
+            }
             return new_data    
         })
     }
@@ -98,7 +102,10 @@ const TrainingProvider = ({children}) => {
     const modifyLabel = (index,data) => {
         setListLabels(prev=>{
             let new_data = [...prev]
-            new_data[index] = data
+            new_data[index] = {
+                ...new_data[index],
+                ...data
+            }
             return new_data
         })
     }
@@ -150,6 +157,10 @@ const TrainingProvider = ({children}) => {
         'Models':{
             trainingModelName,
             setTrainingModelName
+        },
+        "Navigation":{
+            blockNavigate,
+            setBlockNavigate
         }
     }
 

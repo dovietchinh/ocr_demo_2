@@ -7,8 +7,9 @@ import { useModal } from '~/Components/Modal'
 import Button from '~/Components/Button'
 import Modal from '~/Components/Modal'
 import CreateLabel from './CreateLabel'
-import useSideBarRight from './hook'
+// import useSideBarRight from './hook'
 import { ObjectItems, LabelItems} from './Items'
+import { useTraining } from '~/Pages/Training/hook'
 
 
 let cx = classNames.bind(style)
@@ -30,7 +31,7 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
             'component':  LabelItems
         }
     }
-
+    
     const intl = useIntl()    
     // return (<div></div>)
     return (
@@ -58,10 +59,6 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
                             }
                             if(mode=='object'){
                                 if(ele.imgIndex!=activeImg) return
-                                // 'type': 'polygon',
-                                // 'points': tempPoints,
-                                // 'imgIndex': activeImg,
-                                // 'labelIndex': null,
                             }
                             return (
                                 <Component key={uuid()} 
@@ -74,12 +71,10 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
                                         setModifyIndex(index)
                                     }}
                                     handleClick={(e)=>{
-                                        // if(e.target == e.currentTarget) return;
                                         setActiveObject(index)
                                     }}
                                     listLabels={listLabels}
-                                    // activeImg={activeImg}
-                                    // labelIndex={ele?.labelIndex}
+                                    
                                  />
                             )
                         })
@@ -114,5 +109,5 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
         </div>
     )
 }  
-export {useSideBarRight}
+
 export default SideBarRight

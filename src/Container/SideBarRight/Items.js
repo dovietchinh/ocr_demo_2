@@ -1,6 +1,7 @@
 import style from './Items.module.scss'
 import classNames from 'classnames/bind'
 import uuid from 'react-uuid'
+import { useTraining } from '~/Pages/Training/hook'
 let cx = classNames.bind(style)
 
 const LabelItems = ({ele, clickModify, clickDelete }) => {
@@ -32,6 +33,11 @@ const LabelItems = ({ele, clickModify, clickDelete }) => {
 }
 
 const ObjectItems = ({ele, clickDelete,listLabels,active,handleClick}) => {
+    const {
+        "Object":{
+            modifyObjects
+        }
+    } = useTraining()
     return(
         <div className={cx("object",active ? "object--active":null)}
             onClick={handleClick}>
@@ -42,7 +48,10 @@ const ObjectItems = ({ele, clickDelete,listLabels,active,handleClick}) => {
                 </div>
             </div>
             <div className={cx("object-select")}>
-                <select className={cx("default-value")}>
+                <select className={cx("default-value")}
+                    onChange={e=>{
+                        modifyObjects(ele.indexObject - 1,{'labelIndex':e.target.value})
+                    }}>
                     <option value={null} disabled selected hidden>select label</option>
                     {/* <option>heelo1</option>
                     <option>heelo2</option>

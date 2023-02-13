@@ -17,24 +17,26 @@ function App() {
     const {add: addToast, remove: removeToast} = useToasts()
     useEffect(()=>{
         navigate('/training')
-        getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r)))
-        const updateRedux = setInterval(()=>{
-            getListModelApi().then(
-                r=>{
-                    dispatch(appSlice.actions.setModels(r))
-                    for(let i of r){
-                        for(let j of models){
-                            if(i.id==j.id){
-                                if(i?.status=='ready' && j?.status!='ready'){
-                                    addToast(`model ${i.mode_name} is available`,'success')
-                                }
-                            }
-                        }
-                    }
-                })
+        getListModelApi()
+        .then(r=>dispatch(appSlice.actions.setModels(r)))
+        .catch(e=>console.log(e))
+        // const updateRedux = setInterval(()=>{
+        //     getListModelApi().then(
+        //         r=>{
+        //             dispatch(appSlice.actions.setModels(r))
+        //             for(let i of r){
+        //                 for(let j of models){
+        //                     if(i.id==j.id){
+        //                         if(i?.status=='ready' && j?.status!='ready'){
+        //                             addToast(`model ${i.mode_name} is available`,'success')
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         })
             
-        },20000)
-        return ()=>clearInterval(updateRedux)
+        // },100000)
+        // return ()=>clearInterval(updateRedux)
     },[])
     return(
         <>

@@ -14,7 +14,8 @@ const Testing = () =>  {
             listImages,
             clickIndex,
             deleteImage,
-            addImage
+            addImage,
+            upBase64
         }
     } = useTesting()
     return(
@@ -29,6 +30,7 @@ const Testing = () =>  {
                 clickIndex={clickIndex}
                 addImage={addImage}
                 deleteImage={deleteImage}
+                upBase64={upBase64}
                 ></SideBarLeft>
             </div>:null
             }
@@ -37,7 +39,7 @@ const Testing = () =>  {
                 listImages.length==0 ? (
                     <>
                     <SelectModel></SelectModel>
-                    <UploadFile upURL={addImage} className={cx("uploadfile")}></UploadFile>
+                    <UploadFile upURL={addImage} className={cx("uploadfile")} upBase64={upBase64}></UploadFile>
                     </>
                 )
                 : <TestingView/>

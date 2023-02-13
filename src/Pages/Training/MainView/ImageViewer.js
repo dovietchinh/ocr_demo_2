@@ -7,18 +7,13 @@ import { object } from "prop-types";
 
 let cx = classNames.bind(style)
 
-// 'type': 'object',
-// 'points': [[200,10],[250,190],[160,210]],
-// 'imgIndex': 0,
-// 'labelIndex': 0,
 const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolList,setActiveToolList,scale,setScale,offset,setOffset}) => {
-  // const [scale, setScale] = useState(1);
-  // const [offset, setOffset] = useState({ x: 0, y: 0 });
   const imageRef = useRef(null);
-
 	const {
 		'Images': {
+			listImages,
 			activeIndex:activeImg,
+			
 		},
 		'Object':{
 			activeObject
@@ -43,6 +38,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 
     const handleMouseMove = (event) => {
 			// if(event.target !== event.currentTarget) return;
+	  if(activeToolList==1) return
       const deltaX = event.clientX - startX;
       const deltaY = event.clientY - startY;
       setOffset({
@@ -57,6 +53,14 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
       window.removeEventListener("mousemove", handleMouseMove);
     });
   };
+//   useEffect(()=>{
+// 	setSizeImg({
+// 		'height': imageRef?.height,
+// 		'width': imageRef?.width,
+// 		'naturalHeight': imageRef?.naturalHeight,
+// 		'naturalWidth': imageRef?.naturalWidth
+// 	})
+//   })
 
 
   return (
@@ -72,6 +76,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
       onWheel={handleWheel}
     >
       <img
+	  	id="imageRef"
         ref={imageRef}
         src={src}
         style={{
@@ -80,10 +85,10 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
           maxWidth: "100%",
           maxHeight: "100%"
         }}
+		onError={(e)=>e.target.src="https://cdn.pixabay.com/photo/2012/04/13/00/22/red-31226_960_720.png"}
         // onMouseDown={handleMouseDown}
       />
       <svg className={cx("svg")} 
-				onClick={()=>{console.log('click')}}
         style={{
             transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
         }}
@@ -105,7 +110,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 									points={point_string}
 									
 									className={cls}
-									onClick={()=>{console.log(`click polygin ${index}`)}}
 									
 							/>
 						)
@@ -136,7 +140,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 			}}
 			onMouseMove={(e)=>{
 				if(activeToolList==1){
-					
 					let x = (e.pageX - imageRef.current.getBoundingClientRect().left);
 					let y = (e.pageY - imageRef.current.getBoundingClientRect().top);
 					if(tempPoints.length==1){
@@ -156,12 +159,13 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 					setActiveToolList(null)
 					if(tempPoints.length>=3){
 
-					
+						console.log('153 activeImg: ',activeImg)
 						addListObjects({
 							'type': 'polygon',
 							'points': tempPoints.slice(0,-1),
 							'imgIndex': activeImg,
 							'labelIndex': null,
+							'img_uuid': listImages[activeImg].uuid
 						})
 					}
 				}
@@ -174,11 +178,9 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
         }}
         >
             {
-							listObjects?.map((ojbect,indexObject)=>{
-								// if(object.imgIndex!=activeImg) return
-								console.log('object: ',object)
-								console.log('activeImg: ',activeImg)
-								return ojbect.points.map((ele,indexPoint)=>{
+					listObjects?.map((ojbect_label,indexObject)=>{
+						if(ojbect_label.imgIndex!=activeImg) return
+						return ojbect_label.points.map((ele,indexPoint)=>{
                     let pos1,pos2,pos3,pos4
                     return (
                         <div className={cx("moveable-points")} key={uuid()}

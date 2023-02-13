@@ -34,9 +34,6 @@ const BlockingModal = ({when=true}) => {
                     setContent("Do you want to logout?")
                 }
                 setCurrentPath(prompt.pathname);
-                
-                
-                
                 toggle();
             };
         } else {

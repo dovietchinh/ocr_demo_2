@@ -18,6 +18,26 @@
 }
 .container{
     position: relative;
+    img{
+        &:before{
+            content: "";
+            text-align: center;
+            text-justify: center;
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            margin: auto;
+            background-color: gray;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+        &::content{
+            margin:auto;
+            font-size: 200px;
+        }
+    }
 }
 
 .draw-polygon{
@@ -35,8 +55,8 @@
 
 .moveable-points{
     content:"";
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     color: black;
     background-color: black;
     position: absolute;

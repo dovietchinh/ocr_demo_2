@@ -7,6 +7,7 @@ import useSideBarLeft from './useSideBarLeft'
 let cx = classNames.bind(style)
 
 const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,upBase64}) => {
+    console.log("listImages: ",listImages)
     const ref = useRef()
     const intl = useIntl()
     const handleClickInput = (e) =>{
@@ -14,12 +15,17 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
         let length = files.length
         for(let index=0; index< length;index++){
             let imageUrl = URL.createObjectURL(files[index]);
-            addImage(imageUrl)
+            let uuid_temp = uuid()
+            addImage({imageUrl, uuid:uuid_temp})
             if(upBase64){
                 let reader = new FileReader()
-                let base64 = reader.readAsDataURL(files[index])
-                base64.splice()
-                upBase64(base64)
+                reader.readAsDataURL(files[index])
+                reader.onload = (e) => {
+                    upBase64({
+                        'imageUrl':e.target.result,
+                        'img_uuid':uuid_temp
+                    })
+                }
             }
         }
     }
@@ -57,7 +63,7 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
                             // onMouseOver={handleHover}
                             >
                             <div className={cx("content--items--div-img",activeIndex==index ? "content-items--active":null)}>
-                                <img src={ele}></img>
+                                <img src={ele.imageUrl}></img>
                             </div>
                             <div className={cx("content--items-icon")}
                                 onClick={handleClickIcon(index)}>

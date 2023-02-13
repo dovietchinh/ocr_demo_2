@@ -3,12 +3,13 @@ import Button from "~/Components/Button"
 import { useIntl } from "react-intl"
 import style from './CreateLabel.module.scss'
 import { useState } from "react"
+import uuid from 'react-uuid'
 let cx = classNames.bind(style)
 
 const CreateLabel = ({toggle,addData,defaultValue,modifyLabel=()=>{},...res}) => {
     const intl = useIntl()
     
-    const [labelName,setLabelName] = useState(defaultValue?.labelName || "")
+    const [labelName,setLabelName] = useState(defaultValue?.labelName || null)
     const [keyType,setKeyType] = useState(defaultValue?.keyType)
     const [valueType,setValueType] = useState(defaultValue?.valueType)
     // const [disabled,setDisabled] = useState(true)
@@ -24,7 +25,8 @@ const CreateLabel = ({toggle,addData,defaultValue,modifyLabel=()=>{},...res}) =>
         }
         else{
             addData({
-                'name':labelName
+                'name':labelName,
+                'uuid': uuid()
             })
         }
 
@@ -79,8 +81,8 @@ const CreateLabel = ({toggle,addData,defaultValue,modifyLabel=()=>{},...res}) =>
                     <Button
                         className={cx("btn")}
                         onClick={handleClickOk}
-                        disabled={labelName==""}
-                        >{intl.formatMessage({id:"Create"})}
+                        disabled={labelName==null}
+                        >{intl.formatMessage({id:"OK"})}
                     </Button>
                 </div>
             </div>

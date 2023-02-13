@@ -4,6 +4,10 @@ import { useIntl } from "react-intl"
 import style from './UploadFile.module.scss'
 import icon_upload from '~/assets/images/icon.png'
 import Button from "~/Components/Button"
+import { useSelector } from "react-redux"
+import { useToasts } from "../Toast"
+import uuid from "react-uuid"
+import { useLocation } from "react-router-dom"
 let cx = classNames.bind(style)
 const UploadFile = ({upURL,upBase64,className}) => {
     const intl = useIntl()
@@ -13,16 +17,32 @@ const UploadFile = ({upURL,upBase64,className}) => {
         let files = e.target.files
         for(let index = 0 ; index < files.length;index++){
             let imageUrl = URL.createObjectURL(files[index]);
-            upURL(imageUrl)
+            let uuid_temp = uuid()
+            upURL({imageUrl,uuid:uuid_temp})
             if(upBase64){
                 let fileReader = new FileReader()
                 fileReader.readAsDataURL(files[index])
                 fileReader.onload = (e) => {
-                    upBase64(e.target.result)
+                    upBase64({
+                                'imageUrl':e.target.result,
+                                'img_uuid': uuid_temp
+                            })
                 }
             }
         }       
     }
+    // const selectedModel = useSelector(state=>state.appSlice.data.selectedModel)
+    const selectedModel = useSelector(state=>{
+        let selectedModelID = state.appSlice?.data?.selectedModelID
+        let models = state.appSlice?.data?.models
+        for(let model of models){
+            if(selectedModelID == model.model_id){
+                return model
+            }
+        }
+    })
+    const {add: addToast} = useToasts()
+    const location = useLocation()
     return (
         <div className={cx("container",className)}>
             <title className={cx("title")}>
@@ -39,7 +59,14 @@ const UploadFile = ({upURL,upBase64,className}) => {
                     </div>
                     <Button variant='primary'  
                             className={cx("btn")}
-                            onClick={e=>ref.current.click()}
+                            onClick={e=>{
+                                if (selectedModel==null && location.pathname=='/testing'){
+                                    addToast("Please select a model","warning")
+                                }
+                                else{
+                                    ref.current.click()
+                                }
+                            }}
                         >
                         {intl.formatMessage({id:"Browse a file"})}
                     </Button>

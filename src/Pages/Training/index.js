@@ -33,9 +33,12 @@ const Training = () => {
     'ToolList': {
       activeToolList,
       toggleTooList:setActiveToolList
+    },
+    "Navigation":{
+      blockNavigate,
+      setBlockNavigate,
     }
   } = useTraining()
-  // console.log('modifyLabel: ',modifyLabel)
     return (
         <>
         {/* <ProviderTraining> */}
@@ -84,7 +87,7 @@ const Training = () => {
             ></SideBarRight>
           
           </div>
-          <BlockingModal when={listImages.length!=0}></BlockingModal>
+          <BlockingModal when={listImages.length!=0 && blockNavigate}></BlockingModal>
         </>
       );
 }

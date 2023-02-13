@@ -10,8 +10,6 @@ const AuthProvider = ({ children }) => {
     const dispatch = useDispatch()
     // const []
     const signIn = async (data) => {
-    // call api
-        // try {
             const res = await loginApi(data)
 
             if (res && res?.access_token) {
@@ -24,11 +22,6 @@ const AuthProvider = ({ children }) => {
             }
 
             return res;
-        // } catch (error) {
-        //     console.log('error: ',error)
-        //     return error?.response;
-            
-        // }
     };
     const getNewAccessToken = async () => {
         const res = await refreshTokenApi();
@@ -48,7 +41,7 @@ const AuthProvider = ({ children }) => {
             callback();
         }
     };
-    const value = { token: localStorage.getItem(ACCESS_TOKEN), signIn, signOut, getNewAccessToken };
+    const value = { token:()=> localStorage.getItem(ACCESS_TOKEN), signIn, signOut, getNewAccessToken };
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     )

@@ -5,9 +5,15 @@ import style from './ModelManagement.module.scss'
 import uuid from 'react-uuid'
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getListModelApi } from'~/services/api'
+import { activeModelApi, deleteModelApi, getListModelApi, deactiveModelApi } from'~/services/api'
 import { useDispatch, useSelector } from "react-redux";
 import { appSlice } from "~/store";
+import Modal, { useModal } from '~/Components/Modal'
+import ProgressBar from '~/Components/ProgressBar'
+import { useEffect, useState } from "react";
+import { useToasts } from "~/Components/Toast";
+
+
 let cx = classNames.bind(style)
 
 const EmptyModel = () => {
@@ -24,39 +30,48 @@ const EmptyModel = () => {
     )
 }
 
+const STATUS_TEXT = ["error","pause","training","training","deactive","ready"]
+
 const ModelManagement = ({startTrainingClick}) => {
-    // let models = [
-    //     {
-    //         name: "chinhdv",
-    //         date: "24/05/1998",
-    //     },
-    //     {
-    //         name: "chinhdv2",
-    //         date: "24/05/1998",
-    //     }
-    // ]
-    // models = []
     const dispatch = useDispatch()
     const intl = useIntl()
     const models = useSelector(state=>state.appSlice.data.models)
-    // const { isLoading, error, data:models } = useQuery({
-    //     'queryKey':'repoData', 
-    //     'queryFn':() =>{
-    //                 let res = getListModelApi().then(r=>{
-    //                     // console.log('here')
-    //                     dispatch(appSlice.actions.setModels(r))
-    //                     return r
-    //                 })
-    //                 return res
-    //             },
-    //     'staleTime': 5000
-    //     })
-    // if (isLoading) return 'Loading...'
-    // if (error) return 'An error has occurred: ' + error.message
-    // console.log('models: ',models)
-    return (
-        <div className={cx("wrapper")}>
+    const navigate = useNavigate()
+    const { isShowing, toggle } = useModal()
+    const {add:addToast} = useToasts()
+    const selectedModel = useSelector(state=>{
+        let selectedModelID = state.appSlice?.data?.selectedModelID
+        let models = state.appSlice?.data?.models
+        for(let model of models){
+            if(selectedModelID == model.model_id){
+                return model
+            }
+        }
+    })
+    useEffect(()=>{
+        getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r))).catch(e=>console.log(e))
+        const updateRedux = setInterval(()=>{
+            getListModelApi()
+            .then(r=>{
+                    dispatch(appSlice.actions.setModels(r))
+                    for(let i of r){
+                        for(let j of models){
+                            if(i.id==j.id){
+                                if(i?.status=='ready' && j?.status!='ready'){
+                                    addToast(`model ${i.mode_name} is available`,'success')
+                                }
+                            }
+                        }
+                    }
+                })
+            .catch(e=>console.log(e))
+
             
+        },1000)
+        return ()=>clearInterval(updateRedux)
+    },[])
+    return (
+        <div className={cx("wrapper")}>   
             {
             models.length!=0 ? 
             <div className={cx("container")}>  
@@ -73,20 +88,63 @@ const ModelManagement = ({startTrainingClick}) => {
                                                 {ele.model_name}
                                             </span>
                                             <span className={cx("model-info--meta")}>
-                                                {ele.progress==1 ? 'ready':'training'} &nbsp;
-                                                {ele.progress==1 ? <i className="fa-regular fa-circle-check"
+                                                <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
+                                                {
+                                                [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner")}></div>
+                                                }
+                                                {
+                                                ele?.status==4 && <div></div>
+                                                }
+                                                {
+                                                ele?.status==5   && <i className="fa-regular fa-circle-check"
                                                     style={{
                                                         color: 'green',
-                                                    }}></i>: <i className="fa-solid fa-spinner"></i>}
+                                                    }}></i>
+                                                }
+                                                
                                             </span>
                                         </div>
                                         <div className={cx("model--action")}>
                                             <Button className={cx("btn")}
+                                                variant="secondary"
+                                                onClick={()=>{
+                                                    toggle()
+                                                    // dispatch(appSlice.actions.setSelectedModel(ele))
+                                                    dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
+                                                }}
+                                                >{intl.formatMessage({id: "Detail"})}
+                                            </Button>  
+
+                                            <Button className={cx("btn")}
                                                 variant="primary"
-                                                onClick={()=>{}}
+                                                onClick={()=>{
+                                                    if(ele.status==4){
+                                                        activeModelApi({model_id:ele.model_id})
+                                                    }
+                                                    else{
+                                                        deactiveModelApi({model_id:ele.model_id})
+                                                    }
+                                                }}
+                                                disabled={![4,5].includes(ele?.status)}
+                                                >{intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})}
+                                            </Button>  
+                                            <Button className={cx("btn")}
+                                                variant="primary"
+                                                onClick={()=>{
+                                                    // dispatch(appSlice.actions.setSelectedModel(ele))
+                                                    dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
+                                                    navigate('/testing')
+                                                }}
+                                                disabled={ele.status!=5}
                                                 >{intl.formatMessage({id:"Test"})}
                                             </Button>    
-                                            <div className={cx("modal--action--delete")}>
+                                            <div className={cx("modal--action--delete",ele.is_pretrain && "modal--action--delete--disabled")}
+
+                                                onClick={(e)=>{
+                                                    if(ele.is_pretrain) return 
+                                                    deleteModelApi({model_id:ele.model_id})
+                                                }}
+                                                >
                                                 <i className="fa-regular fa-trash-can"></i>
                                             </div>
                                         </div>
@@ -94,11 +152,15 @@ const ModelManagement = ({startTrainingClick}) => {
                                 )
                             })
                         }
-                    
                     </div>
             </div>
             :<EmptyModel/>
             }
+            <Modal hide={toggle} isShowing={isShowing}>
+                <ProgressBar handleClickCancel={toggle} isLoading={false}
+                handleClickOK={()=>navigate('/testing')}
+                ></ProgressBar>
+            </Modal>
         </div>
     )
 }

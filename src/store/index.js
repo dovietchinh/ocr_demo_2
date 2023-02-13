@@ -8,7 +8,9 @@ const initialState = {
         'email': '',
     },
     'data': {
-        'models': []
+        'models': [],
+        'selectedModel': null,
+        'selectedModelID': null,
     }
 }
 
@@ -21,8 +23,6 @@ export const appSlice = createSlice({
         },
         resetState(state,action){
             state = initialState
-            console.log('state: ',state)
-            console.log('initialState: ',initialState)
         },
         setModels(state,action){
             state.data.models = action.payload
@@ -40,7 +40,13 @@ export const appSlice = createSlice({
         },
         setUser(state,action){
             state.user = action.payload
-        }
+        },
+        setSelectedModel(state,action){
+            state.data.selectedModel = action.payload
+        },
+        setSelectedModelID(state,action){
+            state.data.selectedModelID = action.payload
+        },
     }
 })
 
