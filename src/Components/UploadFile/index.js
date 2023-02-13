@@ -62,10 +62,11 @@ const UploadFile = ({upURL,upBase64,className}) => {
                             onClick={e=>{
                                 if (selectedModel==null && location.pathname=='/testing'){
                                     addToast("Please select a model","warning")
+                                    return
                                 }
-                                else{
-                                    ref.current.click()
-                                }
+                                // else{
+                                ref.current.click()
+                                // }
                             }}
                         >
                         {intl.formatMessage({id:"Browse a file"})}

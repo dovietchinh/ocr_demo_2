@@ -92,7 +92,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
         style={{
             transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
         }}
-				
       >
 				{
 					listObjects.map((ele,index)=>{

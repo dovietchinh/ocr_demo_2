@@ -45,19 +45,19 @@ const TestingProvider = ({children}) => {
             addToast('model have not been active','warning')
             return 
         }
-        else{
-            inferenceImgApi({
-                'image_base64': data,
-                'selectedModel': selectedModel,
-            })
-            .then(r=>{
-                console.log('infer_result: ',r)
-                addResultDict(r)
-            })
-            .catch((e)=>{
-                addResultDict(null)
-            })
-        }
+        // else{
+        inferenceImgApi({
+            'image_base64': data,
+            'selectedModel': selectedModel,
+        })
+        .then(r=>{
+            console.log('infer_result: ',r)
+            addResultDict(r)
+        })
+        .catch((e)=>{
+            addResultDict(null)
+        })
+        // }
 
     }
     const addImage = (data) => {
