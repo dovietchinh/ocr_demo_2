@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux"
+import { useToasts } from "~/Components/Toast"
 import { inferenceImgApi } from "~/services/api"
 
 const { createContext, useContext, useState } = require("react")
@@ -10,7 +11,7 @@ const TestingProvider = ({children}) => {
         listImages,
         clickIndex,
         deleteImage: deleteImage_old,
-        addImage} = useSideBarLeft()
+        addImage: addImage_old} = useSideBarLeft()
     const [resultDicts,setResultDict] = useState([])
     const addResultDict = (data)=>{
         setResultDict(prev=>[...prev,data])
@@ -38,18 +39,33 @@ const TestingProvider = ({children}) => {
             }
         }
     })
+    const {add:addToast} = useToasts()
     const upBase64 = (data) => {
-        inferenceImgApi({
-            'image_base64': data,
-            'selectedModel': selectedModel,
-        })
-        .then(r=>{
-            console.log('infer_result: ',r)
-            addResultDict(r)
-        })
-        .catch((e)=>{
-            addResultDict(null)
-        })
+        if(selectedModel.status!=5){
+            addToast('model have not been active','warning')
+            return 
+        }
+        else{
+            inferenceImgApi({
+                'image_base64': data,
+                'selectedModel': selectedModel,
+            })
+            .then(r=>{
+                console.log('infer_result: ',r)
+                addResultDict(r)
+            })
+            .catch((e)=>{
+                addResultDict(null)
+            })
+        }
+
+    }
+    const addImage = (data) => {
+        if(selectedModel.status!=5){
+            addToast('model have not been active','warning')
+            return 
+        }
+        addImage_old(data)
     }
     const value = {
         "Images": {
@@ -67,7 +83,6 @@ const TestingProvider = ({children}) => {
         }
 
     }
-    
     return(
         <TestingContext.Provider value={value}>{children}</TestingContext.Provider>
     )

@@ -7,7 +7,6 @@ import useSideBarLeft from './useSideBarLeft'
 let cx = classNames.bind(style)
 
 const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,upBase64}) => {
-    console.log("listImages: ",listImages)
     const ref = useRef()
     const intl = useIntl()
     const handleClickInput = (e) =>{
@@ -63,7 +62,7 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
                             // onMouseOver={handleHover}
                             >
                             <div className={cx("content--items--div-img",activeIndex==index ? "content-items--active":null)}>
-                                <img src={ele.imageUrl}></img>
+                                <img src={ele?.imageUrl}></img>
                             </div>
                             <div className={cx("content--items-icon")}
                                 onClick={handleClickIcon(index)}>

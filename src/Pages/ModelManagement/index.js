@@ -32,6 +32,97 @@ const EmptyModel = () => {
 
 const STATUS_TEXT = ["error","pause","training","training","deactive","ready"]
 
+
+
+const ModelBar = ({ele,index}) => {
+    let [loadingBtn,setLoadingBtn] = useState()
+    const dispatch = useDispatch()
+    const intl = useIntl()
+    const models = useSelector(state=>state.appSlice.data.models)
+    const navigate = useNavigate()
+    const { isShowing, toggle } = useModal()
+    const {add:addToast} = useToasts()
+    useEffect(()=>{
+        getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r))).catch(e=>console.log(e))
+    },[loadingBtn])
+    console.log('model_status: ',ele.status)
+    return(
+        <div className={cx("model-items")} key={uuid()}>
+            <div className={cx("model-info")}>
+                <span className={cx("model-info--name")}>
+                    {ele.model_name}
+                </span>
+                <span className={cx("model-info--meta")}>
+                    <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
+                    {
+                    [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner")}></div>
+                    }
+                    {
+                    ele?.status==4 && <div></div>
+                    }
+                    {
+                    ele?.status==5   && <i className="fa-regular fa-circle-check"
+                        style={{
+                            color: 'green',
+                        }}></i>
+                    }
+                    
+                </span>
+            </div>
+            <div className={cx("model--action")}>
+                <Button className={cx("btn")}
+                    variant="secondary"
+                    onClick={()=>{
+                        toggle()
+                        // dispatch(appSlice.actions.setSelectedModel(ele))
+                        dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
+                    }}
+                    >{intl.formatMessage({id: "Detail"})}
+                </Button>  
+
+                <Button className={cx("btn")}
+                    variant="primary"
+                    onClick={()=>{
+                        setLoadingBtn(true)
+                        console.log('loadingbtn: ',loadingBtn)
+                        if(ele.status==4){
+                            activeModelApi({model_id:ele.model_id}).then(()=>setLoadingBtn(false))
+                        }
+                        else{
+                            deactiveModelApi({model_id:ele.model_id}).then(()=>setLoadingBtn(false))
+                        }
+                    }}
+                    disabled={![4,5].includes(ele?.status) || loadingBtn}
+                    >
+                    {
+                    loadingBtn?'....':intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
+                    }
+                </Button>  
+                <Button className={cx("btn")}
+                    variant="primary"
+                    onClick={()=>{
+                        // dispatch(appSlice.actions.setSelectedModel(ele))
+                        dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
+                        navigate('/testing')
+                    }}
+                    disabled={ele.status!=5}
+                    >{intl.formatMessage({id:"Test"})}
+                </Button>    
+                <div className={cx("modal--action--delete",ele.is_pretrain && "modal--action--delete--disabled")}
+
+                    onClick={(e)=>{
+                        if(ele.is_pretrain) return 
+                        deleteModelApi({model_id:ele.model_id})
+                    }}
+                    >
+                    <i className="fa-regular fa-trash-can"></i>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
 const ModelManagement = ({startTrainingClick}) => {
     const dispatch = useDispatch()
     const intl = useIntl()
@@ -80,77 +171,82 @@ const ModelManagement = ({startTrainingClick}) => {
                     </div>
                     <div className={cx("content")}>
                         {
-                            models.map((ele,index)=>{
-                                return(
-                                    <div className={cx("model-items")} key={uuid()}>
-                                        <div className={cx("model-info")}>
-                                            <span className={cx("model-info--name")}>
-                                                {ele.model_name}
-                                            </span>
-                                            <span className={cx("model-info--meta")}>
-                                                <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
-                                                {
-                                                [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner")}></div>
-                                                }
-                                                {
-                                                ele?.status==4 && <div></div>
-                                                }
-                                                {
-                                                ele?.status==5   && <i className="fa-regular fa-circle-check"
-                                                    style={{
-                                                        color: 'green',
-                                                    }}></i>
-                                                }
+                            models.map((ele,index)=><ModelBar ele={ele} index={index}></ModelBar>
+                                
+                                // return(
+                                //     <div className={cx("model-items")} key={uuid()}>
+                                //         <div className={cx("model-info")}>
+                                //             <span className={cx("model-info--name")}>
+                                //                 {ele.model_name}
+                                //             </span>
+                                //             <span className={cx("model-info--meta")}>
+                                //                 <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
+                                //                 {
+                                //                 [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner")}></div>
+                                //                 }
+                                //                 {
+                                //                 ele?.status==4 && <div></div>
+                                //                 }
+                                //                 {
+                                //                 ele?.status==5   && <i className="fa-regular fa-circle-check"
+                                //                     style={{
+                                //                         color: 'green',
+                                //                     }}></i>
+                                //                 }
                                                 
-                                            </span>
-                                        </div>
-                                        <div className={cx("model--action")}>
-                                            <Button className={cx("btn")}
-                                                variant="secondary"
-                                                onClick={()=>{
-                                                    toggle()
-                                                    // dispatch(appSlice.actions.setSelectedModel(ele))
-                                                    dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
-                                                }}
-                                                >{intl.formatMessage({id: "Detail"})}
-                                            </Button>  
+                                //             </span>
+                                //         </div>
+                                //         <div className={cx("model--action")}>
+                                //             <Button className={cx("btn")}
+                                //                 variant="secondary"
+                                //                 onClick={()=>{
+                                //                     toggle()
+                                //                     // dispatch(appSlice.actions.setSelectedModel(ele))
+                                //                     dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
+                                //                 }}
+                                //                 >{intl.formatMessage({id: "Detail"})}
+                                //             </Button>  
 
-                                            <Button className={cx("btn")}
-                                                variant="primary"
-                                                onClick={()=>{
-                                                    if(ele.status==4){
-                                                        activeModelApi({model_id:ele.model_id})
-                                                    }
-                                                    else{
-                                                        deactiveModelApi({model_id:ele.model_id})
-                                                    }
-                                                }}
-                                                disabled={![4,5].includes(ele?.status)}
-                                                >{intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})}
-                                            </Button>  
-                                            <Button className={cx("btn")}
-                                                variant="primary"
-                                                onClick={()=>{
-                                                    // dispatch(appSlice.actions.setSelectedModel(ele))
-                                                    dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
-                                                    navigate('/testing')
-                                                }}
-                                                disabled={ele.status!=5}
-                                                >{intl.formatMessage({id:"Test"})}
-                                            </Button>    
-                                            <div className={cx("modal--action--delete",ele.is_pretrain && "modal--action--delete--disabled")}
+                                //             <Button className={cx("btn")}
+                                //                 variant="primary"
+                                //                 onClick={()=>{
+                                //                     loading_btn=true
+                                //                     if(ele.status==4){
+                                //                         activeModelApi({model_id:ele.model_id}).then(loading_btn=false)
+                                //                     }
+                                //                     else{
+                                //                         deactiveModelApi({model_id:ele.model_id}).then(loading_btn=false)
+                                //                     }
+                                //                 }}
+                                //                 disabled={![4,5].includes(ele?.status)}
+                                //                 >
+                                //                 {
+                                //                 loading_btn?'aaaaaaaa':intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
+                                //                 }
+                                //             </Button>  
+                                //             <Button className={cx("btn")}
+                                //                 variant="primary"
+                                //                 onClick={()=>{
+                                //                     // dispatch(appSlice.actions.setSelectedModel(ele))
+                                //                     dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
+                                //                     navigate('/testing')
+                                //                 }}
+                                //                 disabled={ele.status!=5}
+                                //                 >{intl.formatMessage({id:"Test"})}
+                                //             </Button>    
+                                //             <div className={cx("modal--action--delete",ele.is_pretrain && "modal--action--delete--disabled")}
 
-                                                onClick={(e)=>{
-                                                    if(ele.is_pretrain) return 
-                                                    deleteModelApi({model_id:ele.model_id})
-                                                }}
-                                                >
-                                                <i className="fa-regular fa-trash-can"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })
+                                //                 onClick={(e)=>{
+                                //                     if(ele.is_pretrain) return 
+                                //                     deleteModelApi({model_id:ele.model_id})
+                                //                 }}
+                                //                 >
+                                //                 <i className="fa-regular fa-trash-can"></i>
+                                //             </div>
+                                //         </div>
+                                //     </div>
+                                // )
+                            )
                         }
                     </div>
             </div>

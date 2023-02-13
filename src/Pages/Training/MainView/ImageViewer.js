@@ -158,8 +158,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 					setTempPoints([])
 					setActiveToolList(null)
 					if(tempPoints.length>=3){
-
-						console.log('153 activeImg: ',activeImg)
 						addListObjects({
 							'type': 'polygon',
 							'points': tempPoints.slice(0,-1),

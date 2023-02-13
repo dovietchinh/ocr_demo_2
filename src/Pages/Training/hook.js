@@ -14,6 +14,7 @@ const TrainingProvider = ({children}) => {
     const [activeToolList,setActiveToolList] = useState()
     const [trainingModelName,setTrainingModelName] = useState("")
     const [blockNavigate,setBlockNavigate] = useState(true)
+    const [sizeImg,setSizeImg] = useState()
     const toggleTooList = (index) => {
         if(activeToolList==index){
             setActiveToolList(null)

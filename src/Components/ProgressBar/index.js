@@ -39,7 +39,6 @@ const ProgressBar = ({currentState,handleClickCancel,handleClickOK,isLoading}) =
                                             "current":0
                                         }
                                     })
-    console.log('selectedModel line 42: ',selectedModel)
     useEffect(()=>{
         setPercentage(prev=>{
             return {

@@ -63,7 +63,7 @@ const TestingView = () => {
                 <div className={cx("slide__center")}>
                     <div className={cx("slide__content")}>
                         <div className={cx("slide__content__preview")}>
-                            <img src={listImages[activeIndex].imageUrl}
+                            <img src={listImages[activeIndex]?.imageUrl}
                                 atl="no cards foundedaa"
                             ></img>
                             {/* {

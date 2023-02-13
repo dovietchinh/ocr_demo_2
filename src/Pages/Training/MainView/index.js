@@ -80,7 +80,6 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
                     setScale={setScale}
                     offset={offset}
                     setOffset={setOffset}
-                    // imageRef={imageRef}
                     ></ImageViewer>
                 </div>
             </div>
@@ -140,7 +139,7 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
                                 .then(blob=>readingFile(blob,img_uuid))
 
                         Promise.all(listImages.map((ele)=>{
-                                return tempFunction(ele.imageUrl,ele.uuid)
+                                return tempFunction(ele?.imageUrl,ele?.uuid)
                             }))
                             .then((listBase64)=>{
                                 let listAnnotation = []
@@ -163,9 +162,6 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
                                     }
                                     listAnnotation.push(temp)
                                 }
-                                // let imageRef = document.getElementById("imageRef")
-                                console.log('imageRef: ',imageRef)
-                                // console.log('imageRef: ',imageRef.current)
                                 return startTrainingApi({
                                     'model_name': trainingModelName,
                                     'listBase64': listBase64,
@@ -181,10 +177,8 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
                                 })
                             })
                             .then((r)=>{
-                                console.log("response_line176: ",r)
                             })
                             .catch(e=>{
-                                console.log('error_line179',e)
                                 setIsLoading(false)
                             })
                         

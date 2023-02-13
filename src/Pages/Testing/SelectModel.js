@@ -4,6 +4,7 @@ import uuid from 'react-uuid'
 import { useTesting } from './hook'
 import style from './SelectModel.module.scss'
 import { appSlice } from '~/store'
+import { getListModelApi } from '~/services/api'
 let cx = classNames.bind(style)
 
 const SelectModel = () => {
@@ -29,7 +30,10 @@ const SelectModel = () => {
 
                             }
                         }    
+                    }}
+                    onFocus={()=>{
                         
+                        getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r))).catch(e=>console.log(e))
                     }}
                     >
                     <option disabled selected hidden>{models?.length!=0 ? "Select Model":"No model available"}</option>
@@ -40,7 +44,9 @@ const SelectModel = () => {
                                 selected = true
                             }
                             return (
-                                <option key={uuid()} selected={selected} value={ele.model_name}>{ele.model_name}</option>
+                                <option key={uuid()} selected={selected} value={ele.model_name} disabled={ele.status!=5}>
+                                    {ele.model_name}
+                                </option>
                             )
                         })
                     }
