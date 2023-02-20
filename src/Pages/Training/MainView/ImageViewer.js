@@ -26,10 +26,32 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 	for(let i of tempPoints){
 		temp_point_string = temp_point_string + `${i[0]},${i[1]} `
 	}
-  const handleWheel = (event) => {
-    const delta = event.deltaY > 0 ? 0.9 : 1.1;
-    setScale(scale * delta);
-  };
+	let x_temp,y_temp,width_temp,height_temp
+	// let point1_temp = temp
+	// let point2_temp = ele.points[3]
+	// let x = Math.min(point1[0],point2[0])
+	// let y = Math.min(point1[1],point2[1])
+	// let width = Math.abs(point1[0] - point2[0])
+	// let height = Math.abs(point1[1] - point2[1])
+	console.log(tempPoints2)
+	if(tempPoints2.length==2){
+		let point1_temp = tempPoints2[0]
+		let point2_temp = tempPoints2[1]
+		x_temp = Math.min(point1_temp[0],point2_temp[0])
+		y_temp = Math.min(point1_temp[1],point2_temp[1])
+		width_temp = Math.abs(point1_temp[0] - point2_temp[0])
+		height_temp = Math.abs(point1_temp[1] - point2_temp[1])
+	}
+	else{
+		x_temp = 0
+		y_temp = 0
+		width_temp = 0
+		height_temp = 0
+	}
+	const handleWheel = (event) => {
+		const delta = event.deltaY > 0 ? 0.9 : 1.1;
+		setScale(scale * delta);
+	};
 
   const handleMouseDown = (event) => {
     if(event.target !== event.currentTarget) return;
@@ -142,6 +164,18 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 						opacity:0.3,
 					}} 
 				/>
+				<rect
+					x={x_temp}
+					y={y_temp}
+					width={width_temp}
+					height={height_temp}
+					style={{
+						'fill':'blue',
+						'stroke':'purple',
+						'strokeWidth':1,
+						'opacity':0.2,
+					}}>
+				</rect>
 				
       </svg>
       <div className={cx("draw-polygon")}
@@ -190,6 +224,14 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 				if(activeToolList==3){
 					let x = (e.pageX - imageRef.current.getBoundingClientRect().left);
 					let y = (e.pageY - imageRef.current.getBoundingClientRect().top);
+					if(tempPoints2.length==1){
+						setTempPoints2(prev=>[...prev,[x/scale,y/scale]])
+					}
+					setTempPoints2(prev=>{
+						let new_data = [...prev]
+						new_data[new_data.length - 1] = [x/scale,y/scale]
+						return new_data
+					})
 				}
 			}}
 			onContextMenu={(e)=>{
