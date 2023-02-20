@@ -4,6 +4,7 @@ import style from "./MainView.module.scss"
 import icon1 from "~/assets/images/tools1.svg"
 import icon2 from "~/assets/images/tools2.svg"
 import icon3 from "~/assets/images/tools3.svg"
+import icon4 from "~/assets/images/pen.svg"
 import InputForm from "~/Container/InputForm"
 import uuid from 'react-uuid'
 import { useState, useRef, useEffect, useCallback } from "react"
@@ -85,7 +86,7 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
             </div>
             <div className={cx("tool")}>
                 <ToolList
-                    listIcon={[{icon:icon1},{icon:icon2},{icon:icon3}]}
+                    listIcon={[{icon:icon1},{icon:icon4},{icon:icon3},{icon:icon2}]}
                     handleClick={()=>{
                         // validate training info before trigger training
                         let validate_info = true
