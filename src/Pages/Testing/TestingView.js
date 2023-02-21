@@ -29,6 +29,8 @@ const TestingView = () => {
             deleteResultDict
         }
     } = useTesting()
+    const [scale,setScale] = useState(1)
+    const [offset,setOffset] = useState({x:0,y:0})
     let [activeHoverRect,setActiveHoverRect] = useState("")
     const Draw = ()=>{
 
@@ -64,6 +66,33 @@ const TestingView = () => {
             }
             return result
     }
+    const handleWheel = (event) => {
+        const delta = event.deltaY > 0 ? 0.9 : 1.1;
+        setScale(scale * delta);
+    };
+
+    const handleMouseDown = (event) => {
+        event.preventDefault()
+        // if(event.target !== event.currentTarget) return;
+        // if(event.button==2) return
+        const startX = event.clientX;
+        const startY = event.clientY;
+
+        const handleMouseMove = (event) => {
+            // if(event.target !== event.currentTarget) return;
+            const deltaX = event.clientX - startX;
+            const deltaY = event.clientY - startY;
+            setOffset({
+            x: offset.x + deltaX,
+            y: offset.y + deltaY
+            });
+        };
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+        });
+    };
+    console.log('rerender')
     return (
         <div className={cx("main-section")}>
             <div className={cx("main__title")}>
@@ -75,8 +104,19 @@ const TestingView = () => {
                 </div>
                 <div className={cx("slide__center")}>
                     <div className={cx("slide__content")}>
-                        <div className={cx("slide__content__preview")}>
+                        <div 
+                            className={cx("slide__content__preview")}
+                            onWheel={handleWheel}
+                            onMouseDown={handleMouseDown}
+                            >
                             <img src={listImages[activeIndex]?.imageUrl}
+                                style={{
+                                    transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+                                    cursor: "grab",
+                                    maxWidth: "100%",
+                                    maxHeight: "100%"
+                                }}
+                                // onMouseDown={handleMouseDown}
                                 atl="no cards foundedaa"
                             ></img>
                             {/* {

@@ -11,7 +11,6 @@ import CreateLabel from './CreateLabel'
 import { ObjectItems, LabelItems} from './Items'
 import { useTraining } from '~/Pages/Training/hook'
 
-
 let cx = classNames.bind(style)
 
 const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteListObjects,addListLabels,activeObject,setActiveObject,modifyLabel}) => {
@@ -31,7 +30,6 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
             'component':  LabelItems
         }
     }
-    
     const intl = useIntl()    
     // return (<div></div>)
     return (
@@ -74,11 +72,9 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
                                         setActiveObject(index)
                                     }}
                                     listLabels={listLabels}
-                                    
                                  />
                             )
                         })
-                        
                     }
                 </div>
             </div>
