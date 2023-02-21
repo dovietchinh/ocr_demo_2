@@ -54,24 +54,26 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
                 </div>
                 
             </div>
-            <div className={cx("content")} onKeyDown={handleKeyDown} tabIndex={-1}>
-                {
-                listImages && listImages.map((ele,index)=>{
-                    return(
-                        <div key={uuid()} className={cx("content--items")} onClick={clickIndex(index)} 
-                            // onMouseOver={handleHover}
-                            >
-                            <div className={cx("content--items--div-img",activeIndex==index ? "content-items--active":null)}>
-                                <img src={ele?.imageUrl}></img>
+            <div className={cx("content-wrapper")}>
+                <div className={cx("content")} onKeyDown={handleKeyDown} tabIndex={-1}>
+                    {
+                    listImages && listImages.map((ele,index)=>{
+                        return(
+                            <div key={uuid()} className={cx("content--items")} onClick={clickIndex(index)} 
+                                // onMouseOver={handleHover}
+                                >
+                                <div className={cx("content--items--div-img",activeIndex==index ? "content-items--active":null)}>
+                                    <img src={ele?.imageUrl}></img>
+                                </div>
+                                <div className={cx("content--items-icon")}
+                                    onClick={handleClickIcon(index)}>
+                                    <i className="fa-solid fa-circle-xmark"></i>
+                                </div>
                             </div>
-                            <div className={cx("content--items-icon")}
-                                onClick={handleClickIcon(index)}>
-                                <i className="fa-solid fa-circle-xmark"></i>
-                            </div>
-                        </div>
-                    )
-                })
-                }
+                        )
+                    })
+                    }
+                </div>
             </div>
         </div>
     )

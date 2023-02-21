@@ -15,6 +15,8 @@ const TrainingProvider = ({children}) => {
     const [trainingModelName,setTrainingModelName] = useState("")
     const [blockNavigate,setBlockNavigate] = useState(true)
     const [sizeImg,setSizeImg] = useState()
+    console.log('listImages: ',listImages)
+    console.log('listObjects: ',listObjects)
     const toggleTooList = (index) => {
         if(activeToolList==index){
             setActiveToolList(null)
@@ -50,7 +52,7 @@ const TrainingProvider = ({children}) => {
                 if(prev[i].imgIndex!=index){
                     new_data.push({
                         ...prev[i],
-                        imgIndex: prev[i].imgIndex - 1
+                        imgIndex: prev[i].imgIndex<index ? prev[i].imgIndex : prev[i].imgIndex - 1
                     })
                 }
             }

@@ -76,7 +76,7 @@ const ProgressBar = ({currentState,handleClickCancel,handleClickOK,isLoading}) =
                 <div className={cx("modelname--display")}>
                     <span>model </span>
                     <span className={cx("modename")}>{selectedModel.model_name}</span>
-                    <span> is being trained</span>
+                    <span>{percentage.circle_2.current!=1 ? "is being trained": " ready for testing "}</span>
                 </div>
                 <div className={cx("actions")}>
                     <Button variant='light' onClick={handleClickCancel} >Cancel</Button>

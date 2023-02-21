@@ -15,7 +15,7 @@ let instance = null
 const init = () => {
     instance = axios.create({
         baseURL :  BASE_URL,
-        timeout: 50 * 1000
+        timeout: 100 * 1000
     })
     instance.interceptors.request.use(
         async (config) => {

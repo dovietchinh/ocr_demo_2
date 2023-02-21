@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useToasts } from "~/Components/Toast";
 
 
+
 let cx = classNames.bind(style)
 
 const EmptyModel = () => {
@@ -34,18 +35,18 @@ const STATUS_TEXT = ["error","pause","training","training","deactive","ready"]
 
 
 
-const ModelBar = ({ele,index}) => {
+const ModelBar = ({ele,index,toggle}) => {
     let [loadingBtn,setLoadingBtn] = useState()
     const dispatch = useDispatch()
     const intl = useIntl()
     const models = useSelector(state=>state.appSlice.data.models)
     const navigate = useNavigate()
-    const { isShowing, toggle } = useModal()
+    // const { isShowing, toggle } = useModal()
     const {add:addToast} = useToasts()
     useEffect(()=>{
         getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r))).catch(e=>console.log(e))
     },[loadingBtn])
-    console.log('model_status: ',ele.status)
+    // console.log('model_status: ',ele.status)
     return(
         <div className={cx("model-items")} key={uuid()}>
             <div className={cx("model-info")}>
@@ -55,7 +56,7 @@ const ModelBar = ({ele,index}) => {
                 <span className={cx("model-info--meta")}>
                     <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
                     {
-                    [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner")}></div>
+                    [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner","spinner-small")}></div>
                     }
                     {
                     ele?.status==4 && <div></div>
@@ -74,6 +75,7 @@ const ModelBar = ({ele,index}) => {
                     variant="secondary"
                     onClick={()=>{
                         toggle()
+                        // console.log(isShowing)
                         // dispatch(appSlice.actions.setSelectedModel(ele))
                         dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
                     }}
@@ -81,21 +83,40 @@ const ModelBar = ({ele,index}) => {
                 </Button>  
 
                 <Button className={cx("btn")}
-                    variant="primary"
+                    variant={ele?.status==4?"primary":"light"}
                     onClick={()=>{
                         setLoadingBtn(true)
-                        console.log('loadingbtn: ',loadingBtn)
+                        // console.log('loadingbtn: ',loadingBtn)
                         if(ele.status==4){
-                            activeModelApi({model_id:ele.model_id}).then(()=>setLoadingBtn(false))
+                            activeModelApi({model_id:ele.model_id})
+                                .then((r)=>{
+                                    if(r.status=='failure'){
+                                        addToast(r.message,"error")
+                                    }
+                                })
+                                .then(()=>setLoadingBtn(false))
+                                .catch(error=>{console.log(error)})
                         }
                         else{
-                            deactiveModelApi({model_id:ele.model_id}).then(()=>setLoadingBtn(false))
+                            deactiveModelApi({model_id:ele.model_id})
+                                .then((r)=>{
+                                    if(r.status=='failure'){
+                                        addToast(r.message,"error")
+                                    }
+                                })
+                                .then(()=>setLoadingBtn(false))
+                                .catch(error=>{console.log(error)})
                         }
+                    }}
+                    style={{
+                        width:"6.5rem",
+                        // textAlign: "center"
+                        height: "100%"
                     }}
                     disabled={![4,5].includes(ele?.status) || loadingBtn}
                     >
                     {
-                    loadingBtn?'....':intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
+                    loadingBtn?<div className={cx("model-info--meta-spinner","spinner-medium")}></div>:intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
                     }
                 </Button>  
                 <Button className={cx("btn")}
@@ -171,7 +192,7 @@ const ModelManagement = ({startTrainingClick}) => {
                     </div>
                     <div className={cx("content")}>
                         {
-                            models.map((ele,index)=><ModelBar ele={ele} index={index}></ModelBar>
+                            models.map((ele,index)=><ModelBar ele={ele} index={index} toggle={toggle}></ModelBar>
                                 
                                 // return(
                                 //     <div className={cx("model-items")} key={uuid()}>

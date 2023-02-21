@@ -6,6 +6,7 @@ import { useTesting } from './hook'
 import uuid from 'react-uuid'
 import { useState } from 'react'
 
+
 let cx = classNames.bind(style)
 
 const TestingView = () => {
@@ -30,14 +31,26 @@ const TestingView = () => {
     } = useTesting()
     let [activeHoverRect,setActiveHoverRect] = useState("")
     const Draw = ()=>{
+
             let result = []
-            if(resultDicts[activeIndex]==null) {
-                return false
+            let img_uuid = listImages[activeIndex].uuid
+            // if(resultDicts[activeIndex]==null) {
+            //     return false
+            // }
+            console.log('img_uuid: ',img_uuid)
+            console.log('resultDicts: ',resultDicts)
+
+            let resultDict
+            for(let i of  resultDicts){
+                if(i?.img_uuid == img_uuid){
+                    resultDict = i.result
+                }
             }
-            for (let resultDict of resultDicts[activeIndex]) {
+            if(!resultDict) return
+            for (let resultDict_field of resultDict) {
                 let cls =""
-                let key = resultDict?.name
-                let value = resultDict?.value
+                let key = resultDict_field?.name
+                let value = resultDict_field?.value
                 if(key==activeHoverRect){cls="info__group--active"}
                 let x = (
                     <div key={uuid()} className={cx("info__group",cls)}
