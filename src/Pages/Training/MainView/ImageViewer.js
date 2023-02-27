@@ -33,7 +33,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 	// let y = Math.min(point1[1],point2[1])
 	// let width = Math.abs(point1[0] - point2[0])
 	// let height = Math.abs(point1[1] - point2[1])
-	console.log(tempPoints2)
 	if(tempPoints2.length==2){
 		let point1_temp = tempPoints2[0]
 		let point2_temp = tempPoints2[1]
@@ -52,8 +51,43 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 		const delta = event.deltaY > 0 ? 0.9 : 1.1;
 		setScale(scale * delta);
 	};
-
-  const handleMouseDown = (event) => {
+	const ref_draw = useRef()
+	useEffect(()=>{
+		const handleKeyPress = (e) => {
+			if(e.key=='n'){
+				console.log(activeToolList)
+				if(activeToolList==null){
+					setActiveToolList(1)
+				}
+				if(activeToolList==1){
+					setTempPoints([])
+					setActiveToolList(null)
+					if(tempPoints.length>=3){
+						addListObjects({
+							'type': 'polygon',
+							'points': tempPoints.slice(0,-1),
+							'imgIndex': activeImg,
+							'labelIndex': null,
+							'img_uuid': listImages[activeImg].uuid
+						})
+					}
+				}
+			}
+			if(e.key=='m'){
+				if(activeToolList==null){
+					setActiveToolList(3)
+				}
+				if(activeToolList==3){
+					setTempPoints2([])
+					setActiveToolList(null)
+				}
+			}
+			
+		}
+		document.addEventListener("keypress",handleKeyPress)
+		return ()=>document.removeEventListener("keypress",handleKeyPress)
+	},[activeToolList,tempPoints,listImages,activeImg])
+  	const handleMouseDown = (event) => {
     if(event.target !== event.currentTarget) return;
 		if(event.button==2) return
     const startX = event.clientX;
@@ -108,13 +142,14 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
       >
 				{
 					listObjects.map((ele,index)=>{
+						if(ele.imgIndex!=activeImg) return
 						if(ele.type=='polygon'){
 							let point_string = ""
 							for(let i of ele.points){
 								point_string = point_string + `${i[0]},${i[1]} `
 							}
 							
-							if(ele.imgIndex!=activeImg) return
+							// if(ele.imgIndex!=activeImg) return
 							let cls;
 							if(activeObject==index) cls=cx("polygon--active")
 							return (
@@ -128,12 +163,13 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 						else{
 
 							let point1 = ele.points[0]
-							let point2 = ele.points[3]
+							let point2 = ele.points[2]
 							let x = Math.min(point1[0],point2[0])
 							let y = Math.min(point1[1],point2[1])
 							let width = Math.abs(point1[0] - point2[0])
 							let height = Math.abs(point1[1] - point2[1])
-
+							let cls
+							if(activeObject==index) cls=cx("rect--active")
 							return (
 								<>
 								<rect 
@@ -142,12 +178,9 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 									y={y}
 									width={width}
 									height={height}
-									style={{
-										'fill':'blue',
-										'stroke':'purple',
-										'strokeWidth':1,
-										'opacity':0.2,
-									}}>
+									className={cls}
+									
+									>
 								</rect>
 								</>
 							)
@@ -169,16 +202,18 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 					y={y_temp}
 					width={width_temp}
 					height={height_temp}
-					style={{
-						'fill':'blue',
-						'stroke':'purple',
-						'strokeWidth':1,
-						'opacity':0.2,
-					}}>
+					// style={{
+					// 	'fill':'blue',
+					// 	'stroke':'purple',
+					// 	'strokeWidth':1,
+					// 	'opacity':0.2,
+					// }}
+					>
 				</rect>
 				
       </svg>
       <div className={cx("draw-polygon")}
+	  		ref={ref_draw}
 			onClick={(e)=>{
 				let x = e.pageX - imageRef.current.getBoundingClientRect().left;
 				let y = e.pageY - imageRef.current.getBoundingClientRect().top;
@@ -199,7 +234,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 						
 						addListObjects({
 							'type': 'rectangle',
-							'points': [tempPoints2[0],[x/scale,tempPoints2[0][1]],[tempPoints2[0][0],y/scale],[x/scale, y/scale]],
+							'points': [tempPoints2[0],[x/scale,tempPoints2[0][1]],[x/scale, y/scale],[tempPoints2[0][0],y/scale]],
 							'imgIndex': activeImg,
 							'labelIndex': null,
 							'img_uuid': listImages[activeImg].uuid
@@ -265,7 +300,8 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 							<div className={cx("moveable-points")} key={uuid()}
 								style={{
 									left:ele[0] +"px",
-									top:ele[1] +"px"
+									top:ele[1] +"px",
+									cursor: "grab"
 								}}
 								onMouseDown={(e)=>{
 									if(activeToolList==1 || activeToolList==3) return
@@ -286,6 +322,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 											parseInt(e.target.style.left.replace('px','')) - pos1/scale,
 											parseInt(e.target.style.top.replace('px','')) - pos2/scale,
 										])
+										
 									}
 									let mouseup = (myevent)=>{
 										document.removeEventListener('mousemove', mousemove, false);
@@ -299,17 +336,19 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 					})
 				})
             }
-			{/* {
+			{
 				listObjects?.map((ojbect_label,indexObject)=>{
 					if(ojbect_label.imgIndex!=activeImg) return
 					if(ojbect_label.type=='polygon') return
 					return ojbect_label.points.map((ele,indexPoint)=>{
 						let pos1,pos2,pos3,pos4
+						let cursor = ["se-resize","ne-resize","se-resize","ne-resize"][indexPoint]
 						return (
 							<div className={cx("moveable-points")} key={uuid()}
 								style={{
 									left:ele[0] +"px",
-									top:ele[1] +"px"
+									top:ele[1] +"px",
+									cursor: cursor
 								}}
 								onMouseDown={(e)=>{
 									if(activeToolList==1 || activeToolList==3) return
@@ -330,6 +369,47 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 											parseInt(e.target.style.left.replace('px','')) - pos1/scale,
 											parseInt(e.target.style.top.replace('px','')) - pos2/scale,
 										])
+										console.log(indexPoint)
+										if(indexPoint==0){
+											modifyPoint(indexObject,1,[
+												null,
+												parseInt(e.target.style.top.replace('px','')) - pos2/scale,
+											])	
+											modifyPoint(indexObject,3,[
+												parseInt(e.target.style.left.replace('px','')) - pos1/scale,
+												null,
+											])	
+										}
+										if(indexPoint==2){
+											modifyPoint(indexObject,1,[
+												parseInt(e.target.style.left.replace('px','')) - pos1/scale,
+												null,
+											])	
+											modifyPoint(indexObject,3,[
+												null,
+												parseInt(e.target.style.top.replace('px','')) - pos2/scale,
+											])	
+										}
+										if(indexPoint==1){
+											modifyPoint(indexObject,0,[
+												null,
+												parseInt(e.target.style.top.replace('px','')) - pos2/scale,
+											])	
+											modifyPoint(indexObject,2,[
+												parseInt(e.target.style.left.replace('px','')) - pos1/scale,
+												null,
+											])	
+										}
+										if(indexPoint==3){
+											modifyPoint(indexObject,0,[
+												parseInt(e.target.style.left.replace('px','')) - pos1/scale,
+												null,
+											])	
+											modifyPoint(indexObject,2,[
+												null,
+												parseInt(e.target.style.top.replace('px','')) - pos2/scale,
+											])	
+										}
 									}
 									let mouseup = (myevent)=>{
 										document.removeEventListener('mousemove', mousemove, false);
@@ -342,7 +422,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 						)
 					})
 				})
-			} */}
+			}
       </div>
     </div>
   );

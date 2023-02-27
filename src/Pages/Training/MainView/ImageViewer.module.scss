@@ -11,7 +11,17 @@
         stroke-width:1;
         opacity:0.2;
     }
+    rect{
+        fill:blue;
+        stroke:purple;
+        stroke-width:1;
+        opacity:0.2;
+    }
     .polygon--active{
+        opacity: .5;
+        // fill:blue;
+    }
+    .rect--active{
         opacity: .5;
         // fill:blue;
     }

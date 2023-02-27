@@ -43,6 +43,7 @@ const ModelBar = ({ele,index,toggle}) => {
     const navigate = useNavigate()
     // const { isShowing, toggle } = useModal()
     const {add:addToast} = useToasts()
+    const is_admin = useSelector(state=>state.appSlice.user.id==1)
     useEffect(()=>{
         getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r))).catch(e=>console.log(e))
     },[loadingBtn])
@@ -129,7 +130,7 @@ const ModelBar = ({ele,index,toggle}) => {
                     disabled={ele.status!=5}
                     >{intl.formatMessage({id:"Test"})}
                 </Button>    
-                <div className={cx("modal--action--delete",ele.is_pretrain && "modal--action--delete--disabled")}
+                <div className={cx("modal--action--delete",(ele.is_pretrain && !is_admin) && "modal--action--delete--disabled")}
 
                     onClick={(e)=>{
                         if(ele.is_pretrain) return 

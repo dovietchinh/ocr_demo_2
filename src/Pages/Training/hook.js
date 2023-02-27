@@ -15,8 +15,6 @@ const TrainingProvider = ({children}) => {
     const [trainingModelName,setTrainingModelName] = useState("")
     const [blockNavigate,setBlockNavigate] = useState(true)
     const [sizeImg,setSizeImg] = useState()
-    console.log('listImages: ',listImages)
-    console.log('listObjects: ',listObjects)
     const toggleTooList = (index) => {
         if(activeToolList==index){
             setActiveToolList(null)
@@ -77,7 +75,14 @@ const TrainingProvider = ({children}) => {
     const modifyPoint = (objectIndex,pointIndex,point) => {
         setListObjects(prev=>{
             let new_data = [...prev]
-            new_data[objectIndex].points[pointIndex] = point
+            // let old_point = new_data[objectIndex].points[pointIndex]
+            if(point[0]!=null){
+                new_data[objectIndex].points[pointIndex][0] = point[0]
+            }
+            if(point[1]!=null){
+                new_data[objectIndex].points[pointIndex][1] = point[1]
+            }
+            // new_data[objectIndex].points[pointIndex] = point
             return new_data    
         })
     }
