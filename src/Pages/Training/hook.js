@@ -117,23 +117,13 @@ const TrainingProvider = ({children}) => {
             return new_data
         })
     }
-    // useEffect(()=>{
-    //     addListObjects({
-    //         'type': 'polygon',
-    //         'points': [[200,10],[250,190],[160,210]],
-    //         'imgIndex': 0,
-    //         'labelIndex': 0,
-    //     })
-    //     addListLabels(
-    //         {
-    //             'name':'12',
-    //             'ty':'asd'
-    //         }
-    //     )
-    // },[])
-
-
-
+    // addImage({imageUrl, uuid:uuid_temp})
+    const [previewSrc, setPreviewSrc] = useState("")
+    const [transFormPoints,setTransFormPoints] = useState([])
+    useEffect(()=>{
+		setPreviewSrc("")
+        setActiveToolList(null)
+	},[activeIndex])
     const value =  {
         'Images': {
             listImages,
@@ -169,6 +159,11 @@ const TrainingProvider = ({children}) => {
         "Navigation":{
             blockNavigate,
             setBlockNavigate
+        },
+        "TransForm":{
+            setTransFormPoints,
+            previewSrc,
+            setPreviewSrc
         }
     }
 

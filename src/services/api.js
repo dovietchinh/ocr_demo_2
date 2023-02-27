@@ -55,3 +55,11 @@ export const deactiveModelApi = async (params) => {
     })
     return res.data
 }
+
+export const transFormApi = async (params) => {
+    let res = await makePost({
+        url: '/api/v1/utils/transform',
+        data: params
+    })
+    return res.data
+}

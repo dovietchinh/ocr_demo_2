@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react"
 import uuid from "react-uuid";
 import { useTraining } from "../hook";
 import { object } from "prop-types";
+import { transFormApi } from "~/services/api";
 
 let cx = classNames.bind(style)
 
@@ -17,14 +18,25 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 		},
 		'Object':{
 			activeObject
+		},
+		"TransForm":{
+			setTransFormPoints,
+			previewSrc,
+            setPreviewSrc
 		}
 		
 	} = useTraining()
+	const [transformState,setTransformState] = useState(false)
 	const [tempPoints,setTempPoints] = useState([])   // for polygon
 	const [tempPoints2,setTempPoints2] = useState([]) // for rectangle
+	const [tempPoints3,setTempPoints3] = useState([])   // for transform
 	let temp_point_string = ""
 	for(let i of tempPoints){
 		temp_point_string = temp_point_string + `${i[0]},${i[1]} `
+	}
+	let temp_point_string3 = ""
+	for(let i of tempPoints3){
+		temp_point_string3 = temp_point_string3 + `${i[0]},${i[1]} `
 	}
 	let x_temp,y_temp,width_temp,height_temp
 	// let point1_temp = temp
@@ -87,6 +99,13 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 		document.addEventListener("keypress",handleKeyPress)
 		return ()=>document.removeEventListener("keypress",handleKeyPress)
 	},[activeToolList,tempPoints,listImages,activeImg])
+	useEffect(()=>{
+		if(activeToolList==0){
+			setTransformState(true)
+		}
+		setTempPoints3([])
+
+	},[activeToolList])
   	const handleMouseDown = (event) => {
     if(event.target !== event.currentTarget) return;
 		if(event.button==2) return
@@ -122,6 +141,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
       }}
       onWheel={handleWheel}
     >
+		
       <img
 	  	id="imageRef"
         ref={imageRef}
@@ -197,6 +217,16 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 						opacity:0.3,
 					}} 
 				/>
+				{
+					activeToolList==0 && <polygon
+					points={temp_point_string3}
+					style={{
+						fill:"yellow",
+						stroke:"purple",
+						strokeWidth:1,
+						opacity:0.3,
+					}} 
+				/>}
 				<rect
 					x={x_temp}
 					y={y_temp}
@@ -217,6 +247,9 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 			onClick={(e)=>{
 				let x = e.pageX - imageRef.current.getBoundingClientRect().left;
 				let y = e.pageY - imageRef.current.getBoundingClientRect().top;
+				if(activeToolList==0 && transformState){
+					setTempPoints3(prev=>[...prev,[x/scale,y/scale]])
+				}
 				if(activeToolList==1){
 					// let x = e.pageX - imageRef.current.getBoundingClientRect().left;
 					// let y = e.pageY - imageRef.current.getBoundingClientRect().top;
@@ -244,6 +277,19 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 				}
 			}}
 			onMouseMove={(e)=>{
+				if(activeToolList==0 && transformState){
+					let x = (e.pageX - imageRef.current.getBoundingClientRect().left);
+					let y = (e.pageY - imageRef.current.getBoundingClientRect().top);
+					if(tempPoints3.length==1){
+						setTempPoints3(prev=>[...prev,[x/scale,y/scale]])
+					}
+					setTempPoints3(prev=>{
+						let new_data = [...prev]
+						new_data[new_data.length - 1] = [x/scale,y/scale]
+						return new_data
+					})
+				}
+
 				if(activeToolList==1){
 					let x = (e.pageX - imageRef.current.getBoundingClientRect().left);
 					let y = (e.pageY - imageRef.current.getBoundingClientRect().top);
@@ -271,6 +317,46 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 			}}
 			onContextMenu={(e)=>{
 				e.preventDefault()
+				if(activeToolList==0 && transformState==true){
+					// setTempPoints3([])
+					setTransformState(false)
+					// setActiveToolList(null)
+					if(tempPoints3.length>=3){
+						// setTransFormPoints({
+						// 	"image": "src",
+						// 	"points": tempPoints3.slice(0,-1),
+						// })
+						const readingFile = (file) => {
+                            let reader = new FileReader()
+                            return new Promise(
+                                function (resolve, reject) {
+                                    reader.onload = function (event) {
+                                        resolve({
+                                            'data': event.target.result,
+                                        })
+                                    }
+                                    reader.readAsDataURL(file)
+                                })
+                        }
+                        let tempFunction = fetch(src)
+                                .then(res => res.blob())
+                                .then(blob=>readingFile(blob))
+								.then(r=>{
+									console.log('data_335: ',r.data)
+									console.log('points: ',tempPoints3.slice(0,-1))
+									return transFormApi({
+										'image': r.data,
+										'points': tempPoints3.slice(0,-1),
+									})
+									
+								})
+								.then(r=>{
+									const {new_src} = r.data 
+								})
+								
+						
+					}
+				}
 				if(activeToolList==1){
 					setTempPoints([])
 					setActiveToolList(null)

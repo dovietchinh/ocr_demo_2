@@ -26,12 +26,20 @@ const useSideBarLeft = ()=>{
         })
         setListImages(prev=>[...prev,data])
     }
+    const modifyImage = (src,imgIndex) => {
+        setListImages(prev=>{
+            let new_data = [...prev]
+            new_data[imgIndex].url
+            return new_data
+        })
+    }
     return {
         activeIndex,
         listImages,
         clickIndex,
         deleteImage,
         addImage,
+        modifyImage
     }
 }
 

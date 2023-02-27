@@ -4,6 +4,7 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    position: relative;
 }
 .view{
     // flex-grow: 1;
@@ -28,4 +29,14 @@
     
     // width: 100%;
     // height: 4.5rem;
+}
+.transform-container{
+    position: absolute;
+    width: 244px;
+    height: 255px;
+    top: 20px;
+    right: 0px;
+    // transform: translateX();
+    // background-color: red;
+    // color: red;
 }

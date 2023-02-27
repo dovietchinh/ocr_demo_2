@@ -16,6 +16,7 @@ import { startTrainingApi } from "~/services/api"
 import { useToasts } from "~/Components/Toast"
 import { useIntl } from "react-intl"
 import { useNavigate } from "react-router-dom"
+import TransFormImage from "./transform"
 let cx = classNames.bind(style)
 
 const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActiveToolList,addListObjects}) => {
@@ -64,6 +65,7 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
     // const [sizeImg,setSizeImg] = useState()
     let imageRef = document.getElementById("imageRef")
     const navigate = useNavigate()
+    console.log('activeToolList: ',activeToolList)
     return (
         <div className={cx("container")}>
 
@@ -83,6 +85,12 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
                     setOffset={setOffset}
                     ></ImageViewer>
                 </div>
+            </div>
+            <div className={cx("transform-container")}>
+                {
+                activeToolList==0 &&
+                <TransFormImage></TransFormImage>
+                }
             </div>
             <div className={cx("tool")}>
                 <ToolList
