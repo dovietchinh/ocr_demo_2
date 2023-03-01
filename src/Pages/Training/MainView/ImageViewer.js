@@ -5,6 +5,7 @@ import uuid from "react-uuid";
 import { useTraining } from "../hook";
 import { object } from "prop-types";
 import { transFormApi } from "~/services/api";
+import { useToasts } from "~/Components/Toast";
 
 let cx = classNames.bind(style)
 
@@ -26,6 +27,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 		}
 		
 	} = useTraining()
+	const {add: addToast} = useToasts()
 	const [transformState,setTransformState] = useState(false)
 	const [tempPoints,setTempPoints] = useState([])   // for polygon
 	const [tempPoints2,setTempPoints2] = useState([]) // for rectangle
@@ -67,7 +69,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 	useEffect(()=>{
 		const handleKeyPress = (e) => {
 			if(e.key=='n'){
-				console.log(activeToolList)
 				if(activeToolList==null){
 					setActiveToolList(1)
 				}
@@ -106,6 +107,13 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 		setTempPoints3([])
 
 	},[activeToolList])
+	useEffect(()=>{
+		
+		setTransformState(false)
+		setTempPoints3([])
+
+	},[src])
+	
   	const handleMouseDown = (event) => {
     if(event.target !== event.currentTarget) return;
 		if(event.button==2) return
@@ -318,14 +326,11 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 			onContextMenu={(e)=>{
 				e.preventDefault()
 				if(activeToolList==0 && transformState==true){
-					// setTempPoints3([])
+					
 					setTransformState(false)
 					// setActiveToolList(null)
-					if(tempPoints3.length>=3){
-						// setTransFormPoints({
-						// 	"image": "src",
-						// 	"points": tempPoints3.slice(0,-1),
-						// })
+					if(tempPoints3.length>=4){
+						setTempPoints3(prev=>prev.slice(0,4))
 						const readingFile = (file) => {
                             let reader = new FileReader()
                             return new Promise(
@@ -342,19 +347,30 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
                                 .then(res => res.blob())
                                 .then(blob=>readingFile(blob))
 								.then(r=>{
-									console.log('data_335: ',r.data)
-									console.log('points: ',tempPoints3.slice(0,-1))
+									
 									return transFormApi({
-										'image': r.data,
-										'points': tempPoints3.slice(0,-1),
+										'image_base64': r.data,
+										'points': tempPoints3.slice(0,4),
+										'view': {
+											'height': imageRef.current.height,
+											'width': imageRef.current.width,
+										},
+										'naturalView': {
+											'height': imageRef.current.naturalHeight,
+											'width': imageRef.current.naturalWidth
+										}
+										
 									})
 									
 								})
 								.then(r=>{
-									const {new_src} = r.data 
+									setPreviewSrc("http://10.124.64.125:19000/demo/"+r)
 								})
 								
 						
+					}
+					else{
+						addToast("please draw 4 points to align image!",'warning')
 					}
 				}
 				if(activeToolList==1){
@@ -455,7 +471,6 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 											parseInt(e.target.style.left.replace('px','')) - pos1/scale,
 											parseInt(e.target.style.top.replace('px','')) - pos2/scale,
 										])
-										console.log(indexPoint)
 										if(indexPoint==0){
 											modifyPoint(indexObject,1,[
 												null,

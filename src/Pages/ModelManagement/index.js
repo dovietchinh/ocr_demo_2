@@ -47,7 +47,6 @@ const ModelBar = ({ele,index,toggle}) => {
     useEffect(()=>{
         getListModelApi().then(r=>dispatch(appSlice.actions.setModels(r))).catch(e=>console.log(e))
     },[loadingBtn])
-    // console.log('model_status: ',ele.status)
     return(
         <div className={cx("model-items")} key={uuid()}>
             <div className={cx("model-info")}>
@@ -76,7 +75,6 @@ const ModelBar = ({ele,index,toggle}) => {
                     variant="secondary"
                     onClick={()=>{
                         toggle()
-                        // console.log(isShowing)
                         // dispatch(appSlice.actions.setSelectedModel(ele))
                         dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
                     }}
@@ -87,7 +85,6 @@ const ModelBar = ({ele,index,toggle}) => {
                     variant={ele?.status==4?"primary":"light"}
                     onClick={()=>{
                         setLoadingBtn(true)
-                        // console.log('loadingbtn: ',loadingBtn)
                         if(ele.status==4){
                             activeModelApi({model_id:ele.model_id})
                                 .then((r)=>{

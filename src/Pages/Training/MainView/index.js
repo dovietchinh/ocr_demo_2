@@ -65,7 +65,6 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
     // const [sizeImg,setSizeImg] = useState()
     let imageRef = document.getElementById("imageRef")
     const navigate = useNavigate()
-    console.log('activeToolList: ',activeToolList)
     return (
         <div className={cx("container")}>
 

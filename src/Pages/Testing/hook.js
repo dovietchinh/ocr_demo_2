@@ -26,7 +26,7 @@ const TestingProvider = ({children}) => {
     }
     const deleteImage = (index) => {
         deleteImage_old(index)
-        deleteResultDict(index)
+        // deleteResultDict(index)
     }
 
     // const selectedModel = useSelector(state=>state.appSlice.data.selectedModel)
@@ -51,7 +51,6 @@ const TestingProvider = ({children}) => {
             'selectedModel': selectedModel,
         })
         .then(r=>{
-            console.log('infer_result: ',r)
             addResultDict(r)
         })
         .catch((e)=>{

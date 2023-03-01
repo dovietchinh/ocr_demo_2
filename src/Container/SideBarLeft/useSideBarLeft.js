@@ -10,6 +10,7 @@ const useSideBarLeft = ()=>{
         // setActiveIndex(prev=>{
         //     return index!=0 ? index -1 : index
         // })
+
         setActiveIndex(Math.max(index-1,0))
         setListImages(prev=>{
             let new_data = [...prev]
@@ -29,7 +30,7 @@ const useSideBarLeft = ()=>{
     const modifyImage = (src,imgIndex) => {
         setListImages(prev=>{
             let new_data = [...prev]
-            new_data[imgIndex].url
+            new_data[imgIndex].imageUrl = src
             return new_data
         })
     }

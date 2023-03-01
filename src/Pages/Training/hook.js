@@ -5,7 +5,7 @@ import {useSideBarLeft} from "~/Container/SideBarLeft";
 const TrainingContext = createContext(null)
 
 const TrainingProvider = ({children}) => {
-    const {activeIndex,clickIndex, listImages, addImage,deleteImage:deleteImage_old,setActiveIndex} = useSideBarLeft()
+    const {activeIndex,clickIndex, listImages, addImage,deleteImage:deleteImage_old,setActiveIndex,modifyImage} = useSideBarLeft()
 
     const [listObjects,setListObjects] = useState([])
     const [listLabels,setListLabels] = useState([])
@@ -132,6 +132,7 @@ const TrainingProvider = ({children}) => {
             setActiveIndex,
             activeIndex,
             clickIndex,
+            modifyImage
         },
         'Object':{
             listObjects,

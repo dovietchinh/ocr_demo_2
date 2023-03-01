@@ -8,7 +8,7 @@ function ProgressCircle({from_percentage,percentage,title,cls}){
         let right_stop,right_start,left_stop,left_start;
         if(percentage < 0.5){
             right_stop = parseInt(percentage*360) + "deg"
-            left_stop = "180deg"
+            left_stop = "0deg"
         }
         else{
             right_stop = "180deg"
@@ -34,10 +34,7 @@ function ProgressCircle({from_percentage,percentage,title,cls}){
         }
         else
         {
-            console.log("left_start: ",left_start)
-            console.log("left_stop: ",left_stop)
-            console.log("right_start: ",right_start)
-            console.log("right_stop: ",right_stop)
+
             r.style.setProperty("--value_start_left_2",left_start)
             r.style.setProperty("--value_stop_left_2",left_stop)
             r.style.setProperty("--value_start_right_2",right_start)

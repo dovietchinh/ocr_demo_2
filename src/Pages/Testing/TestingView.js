@@ -35,12 +35,10 @@ const TestingView = () => {
     const Draw = ()=>{
 
             let result = []
-            let img_uuid = listImages[activeIndex].uuid
+            let img_uuid = listImages[activeIndex]?.uuid
             // if(resultDicts[activeIndex]==null) {
             //     return false
             // }
-            console.log('img_uuid: ',img_uuid)
-            console.log('resultDicts: ',resultDicts)
 
             let resultDict
             for(let i of  resultDicts){
@@ -92,7 +90,6 @@ const TestingView = () => {
             window.removeEventListener("mousemove", handleMouseMove);
         });
     };
-    console.log('rerender')
     return (
         <div className={cx("main-section")}>
             <div className={cx("main__title")}>
