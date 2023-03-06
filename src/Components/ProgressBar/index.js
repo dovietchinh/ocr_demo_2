@@ -9,9 +9,10 @@ import { getModelStatusApi } from '~/services/api';
 
 
 let cx = classNames.bind(style)
-const Spin = () => {
+export const Spin = ({...res}) => {
+    console.log('res: ',res)
     return (
-    <Spinner animation="border" role="status">
+    <Spinner animation="border" role="status" {...res}>
          <span className="visually-hidden">Loading...</span>
     </Spinner>
     )

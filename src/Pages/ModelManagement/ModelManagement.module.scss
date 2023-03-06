@@ -164,3 +164,36 @@
 @keyframes spinner {
   to {transform: rotate(360deg);}
 }
+
+
+.switch-btn{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    span{
+        // font-size: .8rem;
+    }
+    animation: all 3s;
+    // cursor: pointer;
+}
+
+.model-info--meta-spinner2{
+    // animation: spinner 10s;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    // left: calc( 50% - .5rem );
+    &:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        // background-color: red;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        border-top-color: var(--primary-color);
+        animation: spinner .6s linear infinite;
+        left: calc( 50% - .5rem );
+    }
+}

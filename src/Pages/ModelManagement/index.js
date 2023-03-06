@@ -12,8 +12,8 @@ import Modal, { useModal } from '~/Components/Modal'
 import ProgressBar from '~/Components/ProgressBar'
 import { useEffect, useState } from "react";
 import { useToasts } from "~/Components/Toast";
-
-
+import Form from 'react-bootstrap/Form';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 let cx = classNames.bind(style)
 
@@ -81,7 +81,7 @@ const ModelBar = ({ele,index,toggle}) => {
                     >{intl.formatMessage({id: "Detail"})}
                 </Button>  
 
-                <Button className={cx("btn")}
+                {/* <Button className={cx("btn")}
                     variant={ele?.status==4?"primary":"light"}
                     onClick={()=>{
                         setLoadingBtn(true)
@@ -116,7 +116,88 @@ const ModelBar = ({ele,index,toggle}) => {
                     {
                     loadingBtn?<div className={cx("model-info--meta-spinner","spinner-medium")}></div>:intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
                     }
-                </Button>  
+                </Button>   */}
+                <div className={cx("switch-btn")}>
+                    <div style={{
+                        opacity: loadingBtn ? .3: 1
+                    }}>
+                    <BootstrapSwitchButton 
+                        checked={ele?.status!=4}
+                        // offstyle="secondary"
+                        onlabel={"Activated"}
+                        // offlabel={" deactivated"}
+                        width={120}
+                        // height={10}
+                        // size="sm"
+                        disabled={![4,5].includes(ele?.status) || loadingBtn}
+                        onChange={()=>{
+                            setLoadingBtn(true)
+                            if(ele.status==4){
+                                activeModelApi({model_id:ele.model_id})
+                                    .then((r)=>{
+                                        if(r.status=='failure'){
+                                            addToast(r.message,"error")
+                                        }
+                                    })
+                                    .then(()=>setLoadingBtn(false))
+                                    .catch(error=>{console.log(error)})
+                            }
+                            else{
+                                deactiveModelApi({model_id:ele.model_id})
+                                    .then((r)=>{
+                                        if(r.status=='failure'){
+                                            addToast(r.message,"error")
+                                        }
+                                    })
+                                    .then(()=>setLoadingBtn(false))
+                                    .catch(error=>{console.log(error)})
+                            }
+                        }}
+                        >
+                        
+                    </BootstrapSwitchButton>
+                    </div>
+                    {
+                            loadingBtn?<div className={cx("model-info--meta-spinner2","spinner-medium")}></div>:null
+                    }
+                    {/* <span>Activated</span> */}
+                </div>
+                    
+                {/* <Form className={cx("switch-btn")}>
+                    <Form.Check 
+                    style={{cursor:"pointer"}}
+                    type="switch"
+                    onChange={(e)=>{
+                        setLoadingBtn(true)
+                        if(ele.status==4){
+                            activeModelApi({model_id:ele.model_id})
+                                .then((r)=>{
+                                    if(r.status=='failure'){
+                                        addToast(r.message,"error")
+                                    }
+                                })
+                                .then(()=>setLoadingBtn(false))
+                                .catch(error=>{console.log(error)})
+                        }
+                        else{
+                            deactiveModelApi({model_id:ele.model_id})
+                                .then((r)=>{
+                                    if(r.status=='failure'){
+                                        addToast(r.message,"error")
+                                    }
+                                })
+                                .then(()=>setLoadingBtn(false))
+                                .catch(error=>{console.log(error)})
+                        }
+                    }}
+                    checked={ele?.status!=4}
+                    >
+                    {
+                        loadingBtn?<div className={cx("model-info--meta-spinner","spinner-medium")}></div>:null
+                    }
+                    </Form.Check>
+                    <span>Activated</span>
+                </Form> */}
                 <Button className={cx("btn")}
                     variant="primary"
                     onClick={()=>{

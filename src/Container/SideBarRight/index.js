@@ -31,7 +31,7 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
         }
     }
     const intl = useIntl()    
-    // return (<div></div>)
+    const [defaultValue,setDefaultValue] = useState(null)
     return (
         <div className={cx("container")}>
             <div className={cx("header")}>
@@ -65,6 +65,7 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
                                     active={active}
                                     clickModify={()=>{
                                         toggle()
+                                        setDefaultValue({labelName:ele.name})
                                         setModify(true)
                                         setModifyIndex(index)
                                     }}
@@ -84,6 +85,7 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
                     className={cx("btn")}
                     onClick={()=>{
                         toggle()
+                        setDefaultValue(null)
                         setModify(false)
                         setModifyIndex(null)
 
@@ -93,7 +95,8 @@ const SideBarRight = ({listLabels,deleteListLabels,activeImg,listObjects,deleteL
                 }
             </div>
             <Modal isShowing={isShowing} hide={toggle}>
-                <CreateLabel 
+                <CreateLabel
+                    defaultValue={defaultValue} 
                     toggle={toggle}
                     addData={addListLabels}
                     modify={modify}

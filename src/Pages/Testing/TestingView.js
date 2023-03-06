@@ -5,7 +5,7 @@ import prev_img from '~/assets/images/prev.png'
 import { useTesting } from './hook'
 import uuid from 'react-uuid'
 import { useState } from 'react'
-
+import { Spin } from '~/Components/ProgressBar'
 
 let cx = classNames.bind(style)
 
@@ -41,12 +41,41 @@ const TestingView = () => {
             // }
 
             let resultDict
+            let message
+            let status
             for(let i of  resultDicts){
                 if(i?.img_uuid == img_uuid){
-                    resultDict = i.result
+                    resultDict = i?.result
+                    message = i?.message
+                    status = i.status
                 }
             }
-            if(!resultDict) return
+            console.log('resultDict: ',resultDict)
+            console.log('message: ',message)
+            if(message!="ok"){
+                return (
+                    <div className={cx("no-text-found")}>
+                        <span>
+                            {message}
+                        </span>
+                        {
+                            status==-1 && <i class="fa-solid fa-triangle-exclamation"></i>
+                            
+                        }
+                        {
+                            status==0 && <div><Spin variant="primary"></Spin></div>
+                        }
+                    </div>
+                )
+            }
+            if(resultDict?.length==0) {
+                return (
+                    <div className={cx("no-text-found")}>
+                        <span>No text found</span>
+                    </div>
+                )
+            }
+            
             for (let resultDict_field of resultDict) {
                 let cls =""
                 let key = resultDict_field?.name

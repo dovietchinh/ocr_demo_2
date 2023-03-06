@@ -32,11 +32,17 @@ const CreateLabel = ({toggle,addData,defaultValue,modifyLabel=()=>{},...res}) =>
 
         toggle()
     }
+    console.log("defaultValue: ",defaultValue)
     return (
         <div className={cx("container")}>
             <div className={cx("header")}>
                 <div className={cx("header-title")}>
+                    { 
+                    defaultValue?.labelName!=null ? 
+                    <span>{intl.formatMessage({id:"Edit label"})}</span> :
                     <span>{intl.formatMessage({id:"Create new label"})}</span>
+                    
+                     }
                 </div>
                 <div className={cx("header-icon")} onClick={toggle}>
                     <i className="fa-solid fa-x"></i>

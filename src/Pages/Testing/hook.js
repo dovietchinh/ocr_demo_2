@@ -16,6 +16,18 @@ const TestingProvider = ({children}) => {
     const addResultDict = (data)=>{
         setResultDict(prev=>[...prev,data])
     }
+    const modifyResultDict = (data)=>{
+        setResultDict(prev=>{
+            let new_data = [...prev]
+            for(let i =0; i<prev.length; i++){
+                console.log('prev[i].img_uuid: ',prev[i].img_uuid)
+                if(prev[i]?.img_uuid == data?.img_uuid){
+                    new_data[i] = data
+                }
+            }
+            return new_data
+        })
+    }
     const deleteResultDict = (index)=>{
         setResultDict(prev=>{
             let new_data = [...prev]
@@ -51,12 +63,25 @@ const TestingProvider = ({children}) => {
             'selectedModel': selectedModel,
         })
         .then(r=>{
-            addResultDict(r)
+            modifyResultDict(r)
         })
         .catch((e)=>{
-            addResultDict(null)
+            console.log('anh nay ko infer dc')
+            console.log('e: ',e)
+            modifyResultDict({
+                "result": null,
+                'message': e.message,
+                "status": -1,
+                "img_uuid": data["img_uuid"]
+            })
         })
-        // }
+        addResultDict({
+            "result":null,
+            "message": "wait a second!",
+            "status": 0,
+            "img_uuid": data["img_uuid"]
+        })
+        
 
     }
     const addImage = (data) => {
