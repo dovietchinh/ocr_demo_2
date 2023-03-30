@@ -13,7 +13,7 @@ const Logout = () => {
     useEffect(()=>{
         signOut()
         dispatch(appSlice.actions.resetState())
-        navigate('/login')
+        navigate('/app/fast_ocr/login')
 
     },[])
     return (

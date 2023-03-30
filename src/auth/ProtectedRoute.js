@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
     const location = useLocation()
     if(!token){
         return (
-            <Navigate to="/login" replace state={{from: location}}></Navigate>
+            <Navigate to="/app/fast_ocr/login" replace state={{from: location}}></Navigate>
         )
     }
     return children

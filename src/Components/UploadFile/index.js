@@ -60,7 +60,7 @@ const UploadFile = ({upURL,upBase64,className}) => {
                     <Button variant='primary'  
                             className={cx("btn")}
                             onClick={e=>{
-                                if (selectedModel==null && location.pathname=='/testing'){
+                                if (selectedModel==null && location.pathname=='/app/fast_ocr/testing'){
                                     addToast("Please select a model","warning")
                                     return
                                 }

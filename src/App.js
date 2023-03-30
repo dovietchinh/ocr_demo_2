@@ -16,7 +16,7 @@ function App() {
     const state = useSelector(state=>state)
     const {add: addToast, remove: removeToast} = useToasts()
     useEffect(()=>{
-        navigate('/training')
+        navigate('/app/fast_ocr/training')
         getListModelApi()
         .then(r=>dispatch(appSlice.actions.setModels(r)))
         .catch(e=>console.log(e))

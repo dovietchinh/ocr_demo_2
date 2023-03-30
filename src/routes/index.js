@@ -12,11 +12,11 @@ import TestingProvider from '~/Pages/Testing/hook';
 const OCRRouter = createBrowserRouter(
     [
         {
-            path: "/login",
+            path: "/app/fast_ocr/login",
             element: <Login/>,
         },
         { 
-            path: "/", 
+            path: "/app/fast_ocr/", 
             element: (
                 <ProtectedRoute>
                     <App></App>
@@ -24,21 +24,21 @@ const OCRRouter = createBrowserRouter(
             ),
             children: [
                 {
-                    path: "/training",
+                    path: "/app/fast_ocr/training",
                     element: (<TrainingProvider><Training/></TrainingProvider>)
                 },
                 {
-                    path: "/models-management",
+                    path: "/app/fast_ocr/models-management",
                     element: <ModelManagement/>
                 },
                 {
-                    path: "/testing",
+                    path: "/app/fast_ocr/testing",
                     element: <TestingProvider><Testing></Testing></TestingProvider>
                 }
             ]
         },
         { 
-            path: "/logout",
+            path: "/app/fast_ocr/logout",
             element: <Logout></Logout>
         }
     ]

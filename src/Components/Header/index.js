@@ -18,23 +18,23 @@ const Header = () => {
 		<>
 		<div className={cx("button-group")}>
 			<Button 
-				variant={location.pathname!='/training' ? "primary" : "primary-reverse"}
-				onClick={(e)=>navigate('/training')}
-				checked={location.pathname=='/training'}
+				variant={location.pathname!='/app/fast_ocr/training' ? "primary" : "primary-reverse"}
+				onClick={(e)=>navigate('/app/fast_ocr/training')}
+				checked={location.pathname=='/app/fast_ocr/training'}
 			>
 				{intl.formatMessage({id:"training"})}
 			</Button>
 			<Button 
-				variant={location.pathname!='/models-management' ? "primary" : "primary-reverse"}
-				onClick={(e)=>navigate('/models-management')}
-				checked={location.pathname=='/models-management'}
+				variant={location.pathname!='/app/fast_ocr/models-management' ? "primary" : "primary-reverse"}
+				onClick={(e)=>navigate('/app/fast_ocr/models-management')}
+				checked={location.pathname=='/app/fast_ocr/models-management'}
 			>
 				{intl.formatMessage({id:"models-management"})}
 			</Button>
 			<Button 
-				variant={location.pathname!='/testing' ? "primary" : "primary-reverse"}
-				onClick={(e)=>navigate('/testing')}
-				checked={location.pathname=='/testing'}
+				variant={location.pathname!='/app/fast_ocr/testing' ? "primary" : "primary-reverse"}
+				onClick={(e)=>navigate('/app/fast_ocr/testing')}
+				checked={location.pathname=='/app/fast_ocr/testing'}
 			>
 				{intl.formatMessage({id:"testing"})}
 			</Button>
@@ -43,7 +43,7 @@ const Header = () => {
 			<SelectLanguage></SelectLanguage>
 		</div>
 		<div className={cx("user-button")}>
-			<Button variant="primary" onClick={(e)=>navigate('/logout')}>{intl.formatMessage({id:"logout"})}</Button>
+			<Button variant="primary" onClick={(e)=>navigate('/app/fast_ocr/logout')}>{intl.formatMessage({id:"logout"})}</Button>
 		</div>
 		
 		</>

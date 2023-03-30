@@ -201,7 +201,7 @@ const MainView = ({img,listObjects,activeImg, modifyPoint,activeToolList,setActi
                         //     setIsLoading(false)
                         // },5000)
                         // toggle2()
-                        navigate('/models-management')
+                        navigate('/app/fast_ocr/models-management')
                         setBlockNavigate(true)
                     }}
                 ></InputForm>

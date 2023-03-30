@@ -1,1 +1,1 @@
-export REACT_APP_BE_URL="https://lens.vizone.ai/app/fast_ocr"
+export REACT_APP_BE_URL="https://lens.vizone.ai/app/fast_ocr_api"

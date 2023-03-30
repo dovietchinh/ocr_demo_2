@@ -27,7 +27,7 @@ function Login(){
                 })
                 if(res?.message=='login success!'){
                     addToast(res.message,'success')
-                    navigate('/')
+                    navigate('/app/fast_ocr')
                 }
                 else{
                     // addToast(res.message,'error')
@@ -46,7 +46,7 @@ function Login(){
         }
         login_submit()
         if(localStorage.getItem('access_token')){
-            navigate('/')
+            navigate('/app/fast_ocr')
         }
         
     }

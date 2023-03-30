@@ -26,7 +26,7 @@ const EmptyModel = () => {
             <span>{intl.formatMessage({id:"No model available"})}</span>
             <Button className={cx(".btn")}
                 variant="primary"
-                onClick={()=>navigate('/training')}
+                onClick={()=>navigate('/app/fast_ocr/training')}
             >{intl.formatMessage({id:"Training now"})}</Button>
         </div>
     )
@@ -210,7 +210,7 @@ const ModelBar = ({ele,index,toggle}) => {
                     onClick={()=>{
                         // dispatch(appSlice.actions.setSelectedModel(ele))
                         dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
-                        navigate('/testing')
+                        navigate('/app/fast_ocr/testing')
                     }}
                     disabled={ele.status!=5}
                     >{intl.formatMessage({id:"Test"})}
@@ -289,7 +289,7 @@ const ModelManagement = ({startTrainingClick}) => {
             }
             <Modal hide={toggle} isShowing={isShowing}>
                 <ProgressBar handleClickCancel={toggle} isLoading={false}
-                handleClickOK={()=>navigate('/testing')}
+                handleClickOK={()=>navigate('/app/fast_ocr/testing')}
                 // handleClickActivate={(e)=>{
                 //     setLoadingBtn(true)
                 //             if(ele.status==4){
