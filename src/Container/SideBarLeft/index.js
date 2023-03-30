@@ -15,6 +15,7 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
         for(let index=0; index< length;index++){
             let imageUrl = URL.createObjectURL(files[index]);
             let uuid_temp = uuid()
+            
             addImage({imageUrl, uuid:uuid_temp})
             if(upBase64){
                 let reader = new FileReader()
@@ -27,13 +28,14 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
                 }
             }
         }
+        
     }
     const handleKeyDown = (e) => {
         if(e.key=='Delete'){
             deleteImage(activeIndex)
         }
     } 
-    const handleClickIcon = (index) => (e) => {
+    const handleClickIcon = (index) => {
         deleteImage(index)
     }
     return (
@@ -50,7 +52,10 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
                     <span>{intl.formatMessage({id: "Images"})}</span>
                 </div>
                 <div className={cx("header--add-images")}>
-                    <span onClick={(e)=>ref.current.click()}>{intl.formatMessage({id: "Add Images"})}</span>
+                    <span onClick={(e)=>{
+                        ref.current.value = null
+                        ref.current.click()
+                    }}>{intl.formatMessage({id: "Add Images"})}</span>
                 </div>
                 
             </div>
@@ -59,14 +64,21 @@ const SideBarLeft = ({listImages, activeIndex, clickIndex ,addImage,deleteImage,
                     {
                     listImages && listImages.map((ele,index)=>{
                         return(
-                            <div key={uuid()} className={cx("content--items")} onClick={clickIndex(index)} 
+                            <div key={uuid()} className={cx("content--items")} 
+                                onClick={(e)=>{
+                                    // if(e.target != e.currentTarget) return
+                                    clickIndex(index)()
+                                }} 
                                 // onMouseOver={handleHover}
                                 >
                                 <div className={cx("content--items--div-img",activeIndex==index ? "content-items--active":null)}>
                                     <img src={ele?.imageUrl}></img>
                                 </div>
                                 <div className={cx("content--items-icon")}
-                                    onClick={handleClickIcon(index)}>
+                                    onClick={(e)=>{
+                                        e.stopPropagation();
+                                        deleteImage(index)
+                                    }}>
                                     <i className="fa-solid fa-circle-xmark"></i>
                                 </div>
                             </div>

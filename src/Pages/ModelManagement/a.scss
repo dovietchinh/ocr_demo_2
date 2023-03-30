@@ -1,0 +1,114 @@
+button[role="switch"] {
+    display: block;
+    margin: 2px;
+    padding: 8px;
+    border: 0 solid #005a9c;
+    border-radius: 5px;
+    width: 9rem;
+    height: 100%;
+    text-align: left;
+    background-color: white;
+    color: black;
+    display:flex;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    transition: all ease 1s;
+    -moz-transition: all ease 1s;
+    -webkit-transition: all ease 1s; 
+}
+
+// button[role="switch"] .label {
+//   position: relative;
+//   top: -3px;
+//   display: inline-block;
+//   padding: 0;
+//   margin: 0;
+//   width: 10rem;
+//   vertical-align: middle;
+//   color: black;
+// }
+.switch-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button[role="switch"] svg {
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+  forced-color-adjust: auto;
+  position: relative;
+  // top: 4px;
+}
+
+button[role="switch"] svg rect {
+  fill-opacity: 0;
+  stroke-width: 2;
+  stroke: currentcolor;
+  transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  -webkit-transition: all ease 1s; 
+}
+button[role="switch"] .container{
+  width: 40px;
+  transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  -webkit-transition: all ease 1s; 
+}
+button[role="switch"] svg rect.off {
+  display: block;
+  stroke: currentcolor;
+  fill: currentcolor;
+  fill-opacity: 1;
+  transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  -webkit-transition: all ease 1s; 
+}
+
+button[role="switch"][aria-checked="true"] svg rect.off {
+  display: none;
+  transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  -webkit-transition: all ease 1s; 
+}
+
+button[role="switch"] svg rect.on {
+  display: none;
+  transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  -webkit-transition: all ease 1s; 
+}
+
+button[role="switch"][aria-checked="true"] svg rect.on {
+  color: blue;
+  display: block;
+  stroke-color: currentcolor;
+  fill: currentcolor;
+  fill-opacity: 1;
+}
+
+button[role="switch"] span.off {
+  display: inline-block;
+}
+
+button[role="switch"] span.on {
+  display: none;
+}
+
+button[role="switch"][aria-checked="true"] span.off {
+  display: none;
+}
+
+button[role="switch"][aria-checked="true"] span.on {
+  display: inline-block;
+}
+
+button[role="switch"]:focus,
+button[role="switch"]:hover {
+  padding: 2px 2px 6px 6px;
+  border-width: 2px;
+  outline: none;
+  background-color: #def;
+  cursor: pointer;
+}

@@ -1,7 +1,7 @@
 {
-    "training": "training",
-    "testing": "testing",
-    "models-management": "model management",
+    "training": "Training",
+    "testing": "Testing",
+    "models-management": "Model management",
     "logout": "Đăng xuất",
     "language": "Việt Nam",
     "Add Images": "Thêm Ảnh",
@@ -30,5 +30,7 @@
     "Start training": "Start training",
     "Active": "Active",
     "Deactive": "Deactive",
-    "Detail" : "Detail"
+    "Detail" : "Detail",
+    "Total" : "Có",
+    "status": "trạng thái"
 }

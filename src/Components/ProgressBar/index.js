@@ -5,7 +5,8 @@ import Button from '~/Components/Button'
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getModelStatusApi } from '~/services/api';
+import { activeModelApi, deactiveModelApi, getModelStatusApi } from '~/services/api';
+import { useToasts } from '../Toast';
 
 
 let cx = classNames.bind(style)
@@ -18,7 +19,7 @@ export const Spin = ({...res}) => {
     )
 }
 
-const ProgressBar = ({currentState,handleClickCancel,handleClickOK,isLoading}) => {
+const ProgressBar = ({currentState,handleClickCancel,handleClickOK,handleClickActivate,isLoading}) => {
     // const selectedModel = useSelector(state=>state.appSlice.data.selectedModel)
     const selectedModel = useSelector(state=>{
         let selectedModelID = state.appSlice?.data?.selectedModelID
@@ -54,6 +55,8 @@ const ProgressBar = ({currentState,handleClickCancel,handleClickOK,isLoading}) =
             }
         })
     },[selectedModel])
+    const {add:addToast} = useToasts()
+    const [loadingBtn,setLoadingBtn] = useState(false)
     return (
         // <Container >
             isLoading ? <Spin/>:(<div className={cx("container")}>
@@ -81,8 +84,44 @@ const ProgressBar = ({currentState,handleClickCancel,handleClickOK,isLoading}) =
                 </div>
                 <div className={cx("actions")}>
                     <Button variant='light' onClick={handleClickCancel} >Cancel</Button>
-                    <Button variant='secondary' onClick={handleClickCancel} disabled>Stop</Button>
-                    <Button variant="primary" onClick={handleClickOK} disabled={selectedModel.status==5}>Start test</Button>
+                    {/* <Button variant='secondary' onClick={handleClickCancel} disabled>Stop</Button> */}
+                    <div
+                        style={{
+                            position: "relative"
+                        }}>
+                    <Button variant="primary" 
+                        
+                        onClick={()=>{                    
+                            setLoadingBtn(true)
+                            if(selectedModel.status==4){
+                                activeModelApi({model_id:selectedModel.model_id})
+                                    .then((r)=>{
+                                        if(r.status=='failure'){
+                                            addToast(r.message,"error")
+                                        }
+                                    })
+                                    .then(()=>setLoadingBtn(false))
+                                    .catch(error=>{console.log(error)})
+                            }
+                            // else{
+                            //     deactiveModelApi({model_id:selectedModel.model_id})
+                            //         .then((r)=>{
+                            //             if(r.status=='failure'){
+                            //                 addToast(r.message,"error")
+                            //             }
+                            //         })
+                            //         .then(()=>setLoadingBtn(false))
+                            //         .catch(error=>{console.log(error)})
+                            // }
+                        }} 
+                    disabled={selectedModel.status==5 || loadingBtn }>
+                        Activate model
+                    </Button>
+                    {
+                        loadingBtn?<div className={cx("model-info--meta-spinner2","spinner-medium")}></div>:null
+                    }
+                    </div>
+                    <Button variant="primary" onClick={handleClickOK} disabled={selectedModel.status==4 || loadingBtn}>Start Test</Button>
                 </div>
             </div>)
         

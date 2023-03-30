@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useToasts } from "~/Components/Toast";
 import Form from 'react-bootstrap/Form';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import "./a.scss"
 
 let cx = classNames.bind(style)
 
@@ -54,7 +55,7 @@ const ModelBar = ({ele,index,toggle}) => {
                     {ele.model_name}
                 </span>
                 <span className={cx("model-info--meta")}>
-                    <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
+                    <span>{intl.formatMessage({id:"status"})} : {STATUS_TEXT[ele.status]} &nbsp;</span>
                     {
                     [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner","spinner-small")}></div>
                     }
@@ -117,7 +118,7 @@ const ModelBar = ({ele,index,toggle}) => {
                     loadingBtn?<div className={cx("model-info--meta-spinner","spinner-medium")}></div>:intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
                     }
                 </Button>   */}
-                <div className={cx("switch-btn")}>
+                {/* <div className={cx("switch-btn")}>
                     <div style={{
                         opacity: loadingBtn ? .3: 1
                     }}>
@@ -158,46 +159,52 @@ const ModelBar = ({ele,index,toggle}) => {
                     </BootstrapSwitchButton>
                     </div>
                     {
-                            loadingBtn?<div className={cx("model-info--meta-spinner2","spinner-medium")}></div>:null
+                        loadingBtn?<div className={cx("model-info--meta-spinner2","spinner-medium")}></div>:null
                     }
-                    {/* <span>Activated</span> */}
+                </div> */}
+                <div role="group" aria-labelledby="id-group-label"
+                    className={cx("switch-btn")}
+                    style={{
+                        opacity: loadingBtn ? .2 : 1
+                    }}>
+                    <button type="button" role="switch" 
+                        disabled={![4,5].includes(ele?.status) || loadingBtn}
+                        aria-checked={ele?.status!=4}
+                        style={{
+                            
+                        }}
+                        onClick={(e)=>{
+                            setLoadingBtn(true)
+                            if(ele.status==4){
+                                activeModelApi({model_id:ele.model_id})
+                                    .then((r)=>{
+                                        if(r.status=='failure'){
+                                            addToast(r.message,"error")
+                                        }
+                                    })
+                                    .then(()=>setLoadingBtn(false))
+                                    .catch(error=>{console.log(error)})
+                            }
+                            else{
+                                deactiveModelApi({model_id:ele.model_id})
+                                    .then((r)=>{
+                                        if(r.status=='failure'){
+                                            addToast(r.message,"error")
+                                        }
+                                    })
+                                    .then(()=>setLoadingBtn(false))
+                                    .catch(error=>{console.log(error)})
+                            }
+                        }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="40">
+                            <rect className="container" x="1" y="1" width="30" height="18" rx="4"></rect>
+                            <rect className="off" x="4" y="4" width="12" height="12" rx="4"></rect>
+                            <rect className="on" x="25" y="4" width="12" height="12" rx="4"></rect>
+                        </svg>
+                        <span className="on" aria-hidden="true">Activated</span>
+                        <span className="off" aria-hidden="true">Off</span>
+                    </button>
                 </div>
-                    
-                {/* <Form className={cx("switch-btn")}>
-                    <Form.Check 
-                    style={{cursor:"pointer"}}
-                    type="switch"
-                    onChange={(e)=>{
-                        setLoadingBtn(true)
-                        if(ele.status==4){
-                            activeModelApi({model_id:ele.model_id})
-                                .then((r)=>{
-                                    if(r.status=='failure'){
-                                        addToast(r.message,"error")
-                                    }
-                                })
-                                .then(()=>setLoadingBtn(false))
-                                .catch(error=>{console.log(error)})
-                        }
-                        else{
-                            deactiveModelApi({model_id:ele.model_id})
-                                .then((r)=>{
-                                    if(r.status=='failure'){
-                                        addToast(r.message,"error")
-                                    }
-                                })
-                                .then(()=>setLoadingBtn(false))
-                                .catch(error=>{console.log(error)})
-                        }
-                    }}
-                    checked={ele?.status!=4}
-                    >
-                    {
-                        loadingBtn?<div className={cx("model-info--meta-spinner","spinner-medium")}></div>:null
-                    }
-                    </Form.Check>
-                    <span>Activated</span>
-                </Form> */}
                 <Button className={cx("btn")}
                     variant="primary"
                     onClick={()=>{
@@ -267,85 +274,13 @@ const ModelManagement = ({startTrainingClick}) => {
             models.length!=0 ? 
             <div className={cx("container")}>  
                     <div className={cx("status-text")}>
-                        <span>Total {models.length} model</span>
+                        <span>{intl.formatMessage({id:"Total"})} {models.length} model</span>
                     </div>
                     <div className={cx("content")}>
                         {
                             models.map((ele,index)=><ModelBar ele={ele} index={index} toggle={toggle}></ModelBar>
                                 
-                                // return(
-                                //     <div className={cx("model-items")} key={uuid()}>
-                                //         <div className={cx("model-info")}>
-                                //             <span className={cx("model-info--name")}>
-                                //                 {ele.model_name}
-                                //             </span>
-                                //             <span className={cx("model-info--meta")}>
-                                //                 <span>status : {STATUS_TEXT[ele.status]} &nbsp;</span>
-                                //                 {
-                                //                 [2,3].includes(ele?.status) && <div className={cx("model-info--meta-spinner")}></div>
-                                //                 }
-                                //                 {
-                                //                 ele?.status==4 && <div></div>
-                                //                 }
-                                //                 {
-                                //                 ele?.status==5   && <i className="fa-regular fa-circle-check"
-                                //                     style={{
-                                //                         color: 'green',
-                                //                     }}></i>
-                                //                 }
-                                                
-                                //             </span>
-                                //         </div>
-                                //         <div className={cx("model--action")}>
-                                //             <Button className={cx("btn")}
-                                //                 variant="secondary"
-                                //                 onClick={()=>{
-                                //                     toggle()
-                                //                     // dispatch(appSlice.actions.setSelectedModel(ele))
-                                //                     dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
-                                //                 }}
-                                //                 >{intl.formatMessage({id: "Detail"})}
-                                //             </Button>  
 
-                                //             <Button className={cx("btn")}
-                                //                 variant="primary"
-                                //                 onClick={()=>{
-                                //                     loading_btn=true
-                                //                     if(ele.status==4){
-                                //                         activeModelApi({model_id:ele.model_id}).then(loading_btn=false)
-                                //                     }
-                                //                     else{
-                                //                         deactiveModelApi({model_id:ele.model_id}).then(loading_btn=false)
-                                //                     }
-                                //                 }}
-                                //                 disabled={![4,5].includes(ele?.status)}
-                                //                 >
-                                //                 {
-                                //                 loading_btn?'aaaaaaaa':intl.formatMessage({id: ele?.status==4 ?"Active":"Deactive"})
-                                //                 }
-                                //             </Button>  
-                                //             <Button className={cx("btn")}
-                                //                 variant="primary"
-                                //                 onClick={()=>{
-                                //                     // dispatch(appSlice.actions.setSelectedModel(ele))
-                                //                     dispatch(appSlice.actions.setSelectedModelID(ele.model_id))
-                                //                     navigate('/testing')
-                                //                 }}
-                                //                 disabled={ele.status!=5}
-                                //                 >{intl.formatMessage({id:"Test"})}
-                                //             </Button>    
-                                //             <div className={cx("modal--action--delete",ele.is_pretrain && "modal--action--delete--disabled")}
-
-                                //                 onClick={(e)=>{
-                                //                     if(ele.is_pretrain) return 
-                                //                     deleteModelApi({model_id:ele.model_id})
-                                //                 }}
-                                //                 >
-                                //                 <i className="fa-regular fa-trash-can"></i>
-                                //             </div>
-                                //         </div>
-                                //     </div>
-                                // )
                             )
                         }
                     </div>
@@ -355,6 +290,29 @@ const ModelManagement = ({startTrainingClick}) => {
             <Modal hide={toggle} isShowing={isShowing}>
                 <ProgressBar handleClickCancel={toggle} isLoading={false}
                 handleClickOK={()=>navigate('/testing')}
+                // handleClickActivate={(e)=>{
+                //     setLoadingBtn(true)
+                //             if(ele.status==4){
+                //                 activeModelApi({model_id:ele.model_id})
+                //                     .then((r)=>{
+                //                         if(r.status=='failure'){
+                //                             addToast(r.message,"error")
+                //                         }
+                //                     })
+                //                     .then(()=>setLoadingBtn(false))
+                //                     .catch(error=>{console.log(error)})
+                //             }
+                //             else{
+                //                 deactiveModelApi({model_id:ele.model_id})
+                //                     .then((r)=>{
+                //                         if(r.status=='failure'){
+                //                             addToast(r.message,"error")
+                //                         }
+                //                     })
+                //                     .then(()=>setLoadingBtn(false))
+                //                     .catch(error=>{console.log(error)})
+                //             }
+                // }}
                 ></ProgressBar>
             </Modal>
         </div>

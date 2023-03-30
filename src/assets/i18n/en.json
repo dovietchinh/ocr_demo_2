@@ -30,5 +30,7 @@
     "Start training": "Start training",
     "Active": "Active",
     "Deactive": "Deactive",
-    "Detail" : "Detail"
+    "Detail" : "Detail",
+    "Total": "Total",
+    "status": "status"
 }
