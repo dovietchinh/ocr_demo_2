@@ -41,7 +41,6 @@ const TransFormImage = () => {
             </span>
             <div className={cx("transform__img")}>
                 <img src={previewSrc}></img>
-                {/* <img src="http://10.124.64.125:19000/demo/0023d0c2-1916-442d-82d4-d0751619705a.jpg"></img> */}
             </div>
             <div className={cx("transform__action")}>
                 <div className={cx("transform__action__btn")} onClick={handleClick}>

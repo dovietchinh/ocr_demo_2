@@ -6,6 +6,7 @@ import { useTraining } from "../hook";
 import { object } from "prop-types";
 import { transFormApi } from "~/services/api";
 import { useToasts } from "~/Components/Toast";
+import { MINIO_PUBLIC_URL } from "~/utils/constants";
 
 let cx = classNames.bind(style)
 
@@ -364,7 +365,7 @@ const ImageViewer = ({ src,listObjects, addListObjects, modifyPoint,activeToolLi
 									
 								})
 								.then(r=>{
-									setPreviewSrc("http://10.124.64.125:19000/demo/"+r)
+									setPreviewSrc(MINIO_PUBLIC_URL+r)
 								})
 								
 						
