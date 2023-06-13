@@ -10,7 +10,11 @@ import Testing from '~/Pages/Testing';
 import TrainingProvider from '~/Pages/Training/hook';
 import TestingProvider from '~/Pages/Testing/hook';
 const OCRRouter = createBrowserRouter(
-    [
+    [   
+        {
+            path: "/",
+            element: (<Navigate to='/app/fast_ocr/login'></Navigate>),
+        },
         {
             path: "/app/fast_ocr/login",
             element: <Login/>,
